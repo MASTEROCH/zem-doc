@@ -1047,3 +1047,51 @@ body[data-near-bottom] .zem-fab { transform: scale(0.9); opacity: 0.96; pointer-
 .zem-onb { width: 96px; height: 96px; margin: 0 auto 16px; position: relative; display: grid; place-items: center; }
 .zem-onb::before { content: ''; position: absolute; inset: -16px; border-radius: 50%; background: radial-gradient(circle, rgba(28,143,214,0.28), rgba(18,164,164,0.18) 55%, transparent 74%); filter: blur(10px); animation: zem-glow 6s ease-in-out infinite; }
 .zem-onb .zem-head { width: 90px; height: 90px; }
+
+/* ════════════════════════════════════════════════════════
+   ROCH-POLISH-V3 · консистентность/типографика/доступность
+   ════════════════════════════════════════════════════════ */
+
+/* Custom checkbox (согласия) */
+.check-row { display: flex; gap: 11px; align-items: flex-start; padding: 9px 2px; cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+.check-box { width: 22px; height: 22px; border-radius: 7px; border: 2px solid var(--border-strong); flex: none; display: grid; place-items: center; background: var(--surface); color: #fff; transition: all 0.18s var(--ease-spring); margin-top: 1px; }
+.check-row.on .check-box { background: var(--brand); border-color: var(--brand); transform: scale(1.05); }
+.check-row:active .check-box { transform: scale(0.9); }
+.check-row .ct { font-size: 12.5px; color: var(--text-secondary); line-height: 1.45; }
+.check-row .ct a { color: var(--brand); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+
+/* Tabular figures — цены/числа выравниваются как в Apple */
+.svc-price, .stat-value, .promo-price b, .promo-price s, .summary-total b, .mc-bonus b,
+.dept-from b, .hero-mini-stats .v, .day .dd, .appt-date .d, .doc-rating {
+  font-variant-numeric: tabular-nums; font-feature-settings: 'tnum';
+}
+
+/* Accessibility: видимый фокус только с клавиатуры */
+:focus-visible { outline: 2.5px solid var(--border-focus); outline-offset: 2px; border-radius: 8px; }
+:focus:not(:focus-visible) { outline: none; }
+button, a, input, textarea { -webkit-tap-highlight-color: transparent; }
+
+::selection { background: rgba(14,107,168,0.18); color: var(--navy); }
+
+/* Типографика: балансировка переносов заголовков, ровные абзацы */
+h1, h2, h3, .section-title, .hero-title, .topbar-title, .dept-hero h1, .acct-name { text-wrap: balance; }
+p, .hero-sub, .lead, .review-text, .muted { text-wrap: pretty; }
+
+/* Единый ритм: параграфы-подписи без «прыжков» */
+.section-title { line-height: 1.15; }
+.faint, .muted { letter-spacing: 0; }
+
+/* Консистентные тени/бордеры уже заданы токенами — добиваем hairline */
+.list-card, .card { border-color: var(--border); }
+
+/* Изображения врачей/иконок — плавный ресайз без дёрганья */
+.doc-photo, .dept-icon, .acct-avatar { -webkit-backface-visibility: hidden; }
+
+/* Плавная инерция скролла на всех прокрутках */
+.screen, .chip-row, .day-scroll, .dept-scroll, .promo-scroll, .doc-hscroll, .review-scroll, .zem-body, .sheet { -webkit-overflow-scrolling: touch; }
+
+/* Единый hover/press для всех «ссылок-строк» */
+.section-link:active, .contact-item:active, .menu-item:active { opacity: 0.6; }
+
+/* Разделительные линии тоньше и мягче */
+.summary-row, .svc-item, .menu-item, .contact-item, .acc-item { border-color: var(--border-2); }

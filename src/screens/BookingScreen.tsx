@@ -47,6 +47,8 @@ export function BookingScreen({
   const [time, setTime] = useState<string>('');
   const [name, setName] = useState(userName && userName !== 'Гость' ? userName : '');
   const [phone, setPhone] = useState('');
+  const [consent, setConsent] = useState(false);
+  const [notify, setNotify] = useState(true);
 
   const days = useMemo(() => buildDays(14), []);
   const deptDoctors = useMemo(() => (deptId ? doctorsByDept(deptId) : doctors.slice(0, 8)), [deptId]);
@@ -55,7 +57,7 @@ export function BookingScreen({
   const selectedDay = days.find((d) => d.key === dayKey);
   const price = dept?.consult ?? (doctor && findDept(doctor.deptIds[0])?.consult) ?? 2000;
 
-  const canNext = step === 0 ? !!(deptId && dayKey && time) : !!(name && phone.replace(/\D/g, '').length >= 10);
+  const canNext = step === 0 ? !!(deptId && dayKey && time) : !!(name && phone.replace(/\D/g, '').length >= 10 && consent);
 
   function express() {
     const d = deptId || 'therapy';
@@ -68,6 +70,7 @@ export function BookingScreen({
   }
 
   function next() {
+    if (step === 1 && name && phone.replace(/\D/g, '').length >= 10 && !consent) { toast('Подтвердите согласие на обработку данных'); return; }
     if (!canNext) { toast('Заполните обязательные поля'); return; }
     if (step === 0) setStep(1);
     else onConfirm({
@@ -200,7 +203,17 @@ export function BookingScreen({
             <div className="summary-row"><span className="k">Дата и время</span><span className="v">{selectedDay?.label}, {time}</span></div>
             <div className="summary-total"><span className="k">Стоимость приёма</span><b>{rub(price)}</b></div>
           </div>
-          <p className="faint center" style={{ fontSize: 11, marginTop: 12, lineHeight: 1.5 }}>Оплата в клинике. Администратор подтвердит запись по телефону.</p>
+          <div style={{ marginTop: 14 }}>
+            <div className={`check-row ${consent ? 'on' : ''}`} onClick={() => setConsent(!consent)}>
+              <span className="check-box">{consent && <Icon name="check" size={14} strokeWidth={3} />}</span>
+              <span className="ct">Я согласен(а) на обработку персональных данных и принимаю <a onClick={(e) => e.stopPropagation()}>политику конфиденциальности</a> <span style={{ color: 'var(--danger)' }}>*</span></span>
+            </div>
+            <div className={`check-row ${notify ? 'on' : ''}`} onClick={() => setNotify(!notify)}>
+              <span className="check-box">{notify && <Icon name="check" size={14} strokeWidth={3} />}</span>
+              <span className="ct">Хочу получать напоминания о записи и важную информацию о приёме</span>
+            </div>
+          </div>
+          <p className="faint center" style={{ fontSize: 11, marginTop: 10, lineHeight: 1.5 }}>Оплата в клинике. Администратор подтвердит запись по телефону.</p>
         </div>
       )}
 
