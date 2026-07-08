@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#F4F7FB" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" />
+  <title>Земский Доктор · Медицинский центр</title>
+  <meta name="description" content="Земский Доктор — многопрофильный медицинский центр в Калининграде. Онлайн-запись к врачу, 16 направлений, современная диагностика." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Liquid Glass · SVG displacement filter. Chromium refracts the backdrop
+       through this; Safari/iOS-TMA ignores url() and uses the frosted fallback. -->
+  <svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true">
+    <filter id="lgDisplace" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feTurbulence type="turbulence" baseFrequency="0.011 0.013" numOctaves="2" seed="7" result="noise" />
+      <feGaussianBlur in="noise" stdDeviation="1.4" result="soft" />
+      <feDisplacementMap in="SourceGraphic" in2="soft" scale="20" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+/* ════════════════════════════════════════════════════════════════════
+   Земский Доктор · Design Tokens  ·  «Clinical Light × Navy & Gold»
+   ROCH pass 2026-07-08 — light premium medical system.
+   Brand pulled from logo.svg: deep navy #082344 + champagne gold #BE9E6F.
+   Canvas: airy cool-white. Golden 3D anatomical icons are the hero art.
+   ════════════════════════════════════════════════════════════════════ */
+
+@property --tglow { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+
+:root {
+  /* ── Brand · Navy (trust) + Gold (premium) ─────────────── */
+  --navy:            #082344;   /* brand deep navy — from logo */
+  --navy-700:        #123a63;   /* lighter navy for gradients */
+  --navy-500:        #1f5286;   /* mid navy / links */
+  --navy-300:        #5b83ad;   /* muted navy */
+  --brand:           #0E6BA8;   /* medical blue — primary action */
+  --brand-bright:    #1C8FD6;   /* blue light */
+  --brand-deep:      #0A4E7C;   /* blue deep */
+  --brand-soft:      #E7F1F9;   /* blue tint wash */
+  --teal:            #12A4A4;   /* fresh clinical teal accent */
+  --teal-soft:       #E1F5F4;
+
+  --gold:            #BE9E6F;   /* champagne gold — from logo */
+  --gold-bright:     #D8BC90;
+  --gold-deep:       #9A7C4E;
+  --gold-soft:       #F5EEE0;
+
+  --brand-rgb:       14, 107, 168;
+  --navy-rgb:        8, 35, 68;
+  --gold-rgb:        190, 158, 111;
+  --teal-rgb:        18, 164, 164;
+
+  /* Semantic status */
+  --ok:              #1FA971;
+  --ok-soft:         #E4F6EE;
+  --warn:            #E0932B;
+  --warn-soft:       #FBF0DD;
+  --danger:          #D8524A;
+  --danger-soft:     #FBE7E5;
+
+  /* ── Backgrounds · airy cool-white ─────────────────────── */
+  --bg-app:          #F4F7FB;   /* cool porcelain canvas */
+  --bg-app-grad:
+    radial-gradient(ellipse 120% 70% at 50% -10%, rgba(14,107,168,0.10), transparent 60%),
+    radial-gradient(ellipse 90% 60% at 108% 4%,  rgba(18,164,164,0.08), transparent 62%),
+    radial-gradient(ellipse 90% 60% at -8% 102%, rgba(190,158,111,0.10), transparent 60%),
+    #F4F7FB;
+
+  --surface:         #FFFFFF;   /* card / sheet surface */
+  --surface-2:       #FBFCFE;   /* subtle raised */
+  --surface-3:       #F0F4F9;   /* inset / track */
+  --surface-tint:    #F7FAFD;
+  --bg-card:         #FFFFFF;
+  --bg-header:       rgba(244,247,251,0.72);
+
+  /* Glass (light) */
+  --glass-tint:      rgba(255,255,255,0.62);
+  --glass-tint-strong: rgba(255,255,255,0.80);
+  --glass-frost:     blur(20px) saturate(140%);
+  --glass-refract:   blur(2px) saturate(135%) url(#lgDisplace);
+  --glass-rim:
+    inset 4px 4px 0 -4px rgba(255,255,255,0.9),
+    inset -3px -3px 0 -4px rgba(255,255,255,0.5),
+    inset 0 0 6px 0.5px rgba(255,255,255,0.5);
+
+  /* ── Text ─────────────────────────────────────────────── */
+  --text-primary:    #0C2033;   /* near-navy ink */
+  --text-secondary:  #4B627A;   /* slate */
+  --text-hint:       #8195A9;
+  --text-muted:      #94A6B8;
+  --text-faint:      #B3C1D0;
+  --text-on-navy:    rgba(255,255,255,0.96);
+  --text-on-navy-2:  rgba(224,235,247,0.72);
+
+  /* ── Hairlines & borders ──────────────────────────────── */
+  --border:          #E4EBF3;
+  --border-2:        #EDF1F7;
+  --border-strong:   #D3DEEA;
+  --border-focus:    rgba(14,107,168,0.55);
+
+  /* ── Sizing ───────────────────────────────────────────── */
+  --nav-h:    66px;
+  --nav-gap:  12px;
+  --max-w:    440px;
+  --radius-sm:  10px;
+  --radius:     16px;
+  --radius-md:  18px;
+  --radius-lg:  24px;
+  --radius-xl:  30px;
+  --radius-full:999px;
+  --pill:       999px;
+
+  /* ── Shadows (soft, light-theme) ──────────────────────── */
+  --shadow-xs:    0 1px 2px rgba(16,42,74,0.05);
+  --shadow-card:  0 1px 2px rgba(16,42,74,0.04), 0 8px 24px -12px rgba(16,42,74,0.14);
+  --shadow-raise: 0 2px 6px rgba(16,42,74,0.06), 0 18px 40px -16px rgba(16,42,74,0.20);
+  --shadow-pop:   0 24px 60px -18px rgba(16,42,74,0.28), 0 2px 8px rgba(16,42,74,0.08);
+  --shadow-brand: 0 10px 28px -10px rgba(14,107,168,0.45);
+  --shadow-gold:  0 10px 28px -10px rgba(190,158,111,0.5);
+  --shadow-nav:   0 -1px 0 rgba(16,42,74,0.04), 0 12px 40px -8px rgba(16,42,74,0.18);
+
+  /* ── Motion ───────────────────────────────────────────── */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
+  --duration:      240ms;
+  --duration-fast: 150ms;
+
+  /* ── Z-index scale ────────────────────────────────────── */
+  --z-ambient:     0;
+  --z-sticky:      100;
+  --z-bottom-cta:  150;
+  --z-bottom-nav:  200;
+  --z-fab:         210;
+  --z-sheet-bg:    500;
+  --z-sheet:       501;
+  --z-modal:       8500;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+}
