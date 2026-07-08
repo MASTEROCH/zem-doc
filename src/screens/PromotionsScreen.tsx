@@ -19,6 +19,7 @@ export function PromotionsScreen({
         <div className="wrap-gap">
           {promos.map((p) => (
             <button key={p.id} className={`promo-card ${p.accent}`} style={{ width: '100%' }} onClick={() => openPromoSheet(p, { onBook, onOpenDoctor })}>
+              <span className="promo-spark a" /><span className="promo-spark b" />
               <span className="badge">{p.badge}</span>
               <div className="promo-title" style={{ fontSize: 19 }}>{p.title}</div>
               <div className="promo-text">{p.text}</div>

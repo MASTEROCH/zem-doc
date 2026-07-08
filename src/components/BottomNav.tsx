@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState, useEffect } from 'react';
 import type { Screen } from '../App';
 import { Icon, type IconName } from './Icon';
 
@@ -12,23 +12,28 @@ const right: Tab[] = [
   { id: 'doctors', label: 'Врачи',   icon: 'users' },
   { id: 'account', label: 'Кабинет', icon: 'user' },
 ];
+const IND_W = 54;
 
 export function BottomNav({ current, onChange }: { current: Screen; onChange: (s: Screen) => void }) {
   const navRef = useRef<HTMLElement>(null);
   const refs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const [ind, setInd] = useState<{ x: number; w: number } | null>(null);
+  const [ind, setInd] = useState<{ x: number } | null>(null);
+  const [ready, setReady] = useState(false);
 
-  useLayoutEffect(() => {
+  // offsetLeft/offsetWidth относительно .bottom-nav (positioned) — точно и без влияния transform
+  const measure = useCallback(() => {
     const el = refs.current[current];
-    const nav = navRef.current;
-    if (el && nav) {
-      const nr = nav.getBoundingClientRect();
-      const er = el.getBoundingClientRect();
-      setInd({ x: er.left - nr.left + (er.width - 56) / 2, w: 56 });
-    } else {
-      setInd(null); // active screen is not a nav tab (booking) — hide indicator
-    }
+    if (el) setInd({ x: el.offsetLeft + (el.offsetWidth - IND_W) / 2 });
+    else setInd(null);
   }, [current]);
+
+  useLayoutEffect(() => { measure(); }, [measure]);
+  useEffect(() => {
+    // после первого кадра включаем transition (чтобы не «прилетал» из угла)
+    const id = requestAnimationFrame(() => { measure(); setReady(true); });
+    window.addEventListener('resize', measure);
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', measure); };
+  }, [measure]);
 
   const item = (tab: Tab) => (
     <button
@@ -45,7 +50,11 @@ export function BottomNav({ current, onChange }: { current: Screen; onChange: (s
 
   return (
     <nav className="bottom-nav" aria-label="Навигация" ref={navRef}>
-      <div className="nav-indicator" style={ind ? { transform: `translateX(${ind.x}px)`, width: ind.w, opacity: 1 } : { opacity: 0 }} aria-hidden />
+      <div
+        className={`nav-indicator ${ready ? 'anim' : ''}`}
+        style={ind ? { transform: `translateX(${ind.x}px)`, width: IND_W, opacity: 1 } : { opacity: 0 }}
+        aria-hidden
+      />
       {left.map(item)}
       <div className="nav-fab-slot">
         <button className="nav-fab" onClick={() => onChange('booking')} aria-label="Записаться на приём">

@@ -136,7 +136,7 @@ export function HomeScreen({
 
       {/* dr.Zem entry strip */}
       <div className="section" style={{ marginTop: 20 }}>
-        <button className="card card-pad row" style={{ width: '100%', gap: 12, textAlign: 'left', background: 'linear-gradient(120deg, #fff, var(--brand-soft))' }} onClick={() => openZem()}>
+        <button className="card card-pad row" style={{ width: '100%', gap: 12, textAlign: 'left', background: 'var(--grad-tint-brand)' }} onClick={() => openZem()}>
           <span className="zem-inline"><ZemFace emotion="hi" /></span>
           <div className="grow">
             <div style={{ fontWeight: 800, fontSize: 15 }}>Спросите dr.Zem</div>

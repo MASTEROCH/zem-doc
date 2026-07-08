@@ -83,6 +83,7 @@ export function DoctorMini({ doc, onClick }: { doc: Doctor; onClick: () => void 
 export function PromoCard({ p, onOpen }: { p: Promo; onOpen: (p: Promo) => void }) {
   return (
     <button className={`promo-card ${p.accent}`} onClick={() => onOpen(p)}>
+      <span className="promo-spark a" /><span className="promo-spark b" />
       <span className="badge">{p.badge}</span>
       <div className="promo-title">{p.title}</div>
       <div className="promo-text">{p.text}</div>

@@ -5,32 +5,12 @@ import { clinic } from '../data/clinic';
 import { openSheet, closeSheet, toast } from '../lib/ui';
 import { openZem } from '../lib/zem';
 
-function EditProfile({ name, phone, onSave }: { name: string; phone: string; onSave: (n: string, p: string) => void }) {
-  const [n, setN] = useState(name);
-  const [p, setP] = useState(phone);
-  return (
-    <div>
-      <div className="field">
-        <label className="field-label">Имя</label>
-        <input className="input" value={n} onChange={(e) => setN(e.target.value)} placeholder="Ваше имя" autoFocus />
-      </div>
-      <div className="field">
-        <label className="field-label">Телефон</label>
-        <input className="input" type="tel" value={p} onChange={(e) => setP(e.target.value)} placeholder="+7 (___) ___-__-__" />
-      </div>
-      <button className="btn btn-primary btn-block btn-lg" onClick={() => { onSave(n.trim() || 'Пациент', p.trim()); closeSheet(); toast('Профиль сохранён', 'success'); }}>
-        <Icon name="check" size={20} strokeWidth={2.6} /> Сохранить
-      </button>
-    </div>
-  );
-}
-
 export function AccountScreen({
-  userName, onSetName, favCount, onBook, onClinic, onDoctors, onDepartments, onFavorites, onPrices, onNews, onPromotions,
+  userName, onSetName, favCount, onBook, onClinic, onDoctors, onDepartments, onFavorites, onPrices, onNews, onPromotions, onSettings, onAnalyses,
 }: {
   userName: string; onSetName: (n: string) => void; favCount: number;
   onBook: () => void; onClinic: () => void; onDoctors: () => void; onDepartments: () => void;
-  onFavorites: () => void; onPrices: () => void; onNews: () => void; onPromotions: () => void;
+  onFavorites: () => void; onPrices: () => void; onNews: () => void; onPromotions: () => void; onSettings: () => void; onAnalyses: () => void;
 }) {
   const [phone, setPhone] = useState('');
   const displayName = userName === 'Гость' ? 'Пациент' : userName;
@@ -42,13 +22,14 @@ export function AccountScreen({
   });
 
   const tiles = [
-    { icon: 'flask' as IconName, label: 'Анализы', tone: 'teal', note: '2 готовы', onClick: () => toast('Результаты анализов появятся здесь') },
+    { icon: 'flask' as IconName, label: 'Анализы', tone: 'teal', note: '2 готовы', onClick: onAnalyses },
     { icon: 'file' as IconName, label: 'Документы', tone: 'brand', note: '5', onClick: () => toast('Ваши документы и заключения') },
     { icon: 'heart' as IconName, label: 'Избранное', tone: 'gold', note: String(favCount), onClick: onFavorites },
   ];
 
   const menu: { icon: IconName; label: string; val?: string; onClick: () => void }[] = [
     { icon: 'calendar-check', label: 'История приёмов', val: '8', onClick: () => toast('История приёмов') },
+    { icon: 'flask', label: 'Мои анализы', val: '2', onClick: onAnalyses },
     { icon: 'file', label: 'Прайс-лист', onClick: onPrices },
     { icon: 'gift', label: 'Акции и комплексы', onClick: onPromotions },
     { icon: 'stethoscope', label: 'Направления', onClick: onDepartments },
@@ -60,7 +41,7 @@ export function AccountScreen({
 
   return (
     <div className="screen">
-      <AppHeader action={{ icon: 'settings', onClick: () => toast('Настройки'), label: 'Настройки' }} />
+      <AppHeader action={{ icon: 'settings', onClick: onSettings, label: 'Настройки' }} />
 
       <div className="acct-head">
         <div className="acct-avatar">{initials}</div>

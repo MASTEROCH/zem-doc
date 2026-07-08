@@ -115,6 +115,9 @@
   --z-sheet:       501;
   --z-modal:       8500;
 
+  --grad-tint-brand: linear-gradient(120deg, #ffffff, var(--brand-soft));
+  --grad-tint-gold:  linear-gradient(120deg, var(--gold-soft), #ffffff);
+
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
 }

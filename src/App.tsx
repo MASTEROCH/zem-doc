@@ -15,6 +15,8 @@ import { PricesScreen } from './screens/PricesScreen';
 import { NewsScreen } from './screens/NewsScreen';
 import { PromotionsScreen } from './screens/PromotionsScreen';
 import { SearchScreen } from './screens/SearchScreen';
+import { SettingsScreen } from './screens/SettingsScreen';
+import { AnalysesScreen } from './screens/AnalysesScreen';
 import { OnboardingScreen } from './screens/OnboardingScreen';
 import { toast } from './lib/ui';
 
@@ -22,13 +24,13 @@ const ONB_KEY = 'zem_onboarded';
 
 export type Screen =
   | 'home' | 'departments' | 'department' | 'doctors' | 'doctor'
-  | 'booking' | 'confirm' | 'account' | 'clinic' | 'prices' | 'news' | 'promotions' | 'search';
+  | 'booking' | 'confirm' | 'account' | 'clinic' | 'prices' | 'news' | 'promotions' | 'search' | 'settings' | 'analyses';
 
 const TAB_SCREENS: Screen[] = ['home', 'departments', 'doctors', 'account'];
 
 const DEPTH: Record<Screen, number> = {
   home: 0, departments: 0, doctors: 0, account: 0,
-  department: 1, doctor: 1, booking: 1, clinic: 1, prices: 1, news: 1, promotions: 1, search: 1, confirm: 2,
+  department: 1, doctor: 1, booking: 1, clinic: 1, prices: 1, news: 1, promotions: 1, search: 1, settings: 1, analyses: 1, confirm: 2,
 };
 
 function navigate(dir: 'fwd' | 'back', setter: () => void) {
@@ -42,7 +44,7 @@ function navigate(dir: 'fwd' | 'back', setter: () => void) {
 function initialScreen(): Screen {
   if (typeof window === 'undefined') return 'home';
   const s = new URLSearchParams(window.location.search).get('screen') as Screen | null;
-  const valid: Screen[] = ['home', 'departments', 'department', 'doctors', 'doctor', 'booking', 'account', 'clinic', 'prices', 'news', 'promotions', 'search'];
+  const valid: Screen[] = ['home', 'departments', 'department', 'doctors', 'doctor', 'booking', 'account', 'clinic', 'prices', 'news', 'promotions', 'search', 'settings', 'analyses'];
   return s && valid.includes(s) ? s : 'home';
 }
 
@@ -139,7 +141,7 @@ export function App() {
         <AccountScreen userName={userName} onSetName={setUserName} favCount={favorites.size}
           onBook={() => openBooking()} onClinic={() => setScreen('clinic')} onDoctors={() => setScreen('doctors')}
           onDepartments={() => openDepartments()} onFavorites={() => openDepartments('fav')}
-          onPrices={() => setScreen('prices')} onNews={() => setScreen('news')} onPromotions={() => setScreen('promotions')} />
+          onPrices={() => setScreen('prices')} onNews={() => setScreen('news')} onPromotions={() => setScreen('promotions')} onSettings={() => setScreen('settings')} onAnalyses={() => setScreen('analyses')} />
       )}
       {screen === 'clinic' && (
         <ClinicScreen onBack={() => setScreen('home')} onBook={() => openBooking()} />
@@ -155,6 +157,12 @@ export function App() {
       )}
       {screen === 'search' && (
         <SearchScreen onBack={() => setScreen('home')} onOpenDept={openDept} onOpenDoctor={openDoctor} onBook={openBooking} />
+      )}
+      {screen === 'settings' && (
+        <SettingsScreen onBack={() => setScreen('account')} />
+      )}
+      {screen === 'analyses' && (
+        <AnalysesScreen onBack={() => setScreen('account')} onBook={() => openBooking()} />
       )}
 
       {isTab && (

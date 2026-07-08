@@ -4,6 +4,9 @@ import './styles/tokens.css';
 import './styles/global.css';
 import { App } from './App';
 import { installHaptics } from './lib/haptics';
+import { applyTheme } from './lib/theme';
+
+applyTheme();
 
 // Telegram Mini App: развернуть на весь экран, если доступно
 const tgApp = (window as unknown as { Telegram?: { WebApp?: { ready: () => void; expand: () => void } } }).Telegram?.WebApp;
