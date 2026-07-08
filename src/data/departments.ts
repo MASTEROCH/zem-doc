@@ -37,7 +37,7 @@ export const GROUPS: Array<{ id: DeptGroup | 'all'; label: string }> = [
 export const departments: Department[] = [
   {
     id: 'cardio',
-    img: '/profiles/cardio.png',
+    img: 'profiles/cardio.png',
     title: 'Кардиология',
     short: 'Сердце и сосуды под контролем',
     group: 'priem',
@@ -57,7 +57,7 @@ export const departments: Department[] = [
   },
   {
     id: 'cardio-surgery',
-    img: '/profiles/cardio-surgery.png',
+    img: 'profiles/cardio-surgery.png',
     title: 'Сердечно-сосудистая хирургия',
     short: 'Вены, артерии, флебология',
     group: 'lechenie',
@@ -75,7 +75,7 @@ export const departments: Department[] = [
   },
   {
     id: 'gyneco',
-    img: '/profiles/gyneco.png',
+    img: 'profiles/gyneco.png',
     title: 'Гинекология',
     short: 'Женское здоровье и профилактика',
     group: 'women',
@@ -95,7 +95,7 @@ export const departments: Department[] = [
   },
   {
     id: 'gastro',
-    img: '/profiles/gastro.png',
+    img: 'profiles/gastro.png',
     title: 'Гастроэнтерология',
     short: 'ЖКТ, печень, обмен веществ',
     group: 'priem',
@@ -112,7 +112,7 @@ export const departments: Department[] = [
   },
   {
     id: 'neuro',
-    img: '/profiles/neuro.png',
+    img: 'profiles/neuro.png',
     title: 'Неврология',
     short: 'Нервная система и головные боли',
     group: 'priem',
@@ -131,7 +131,7 @@ export const departments: Department[] = [
   },
   {
     id: 'endo',
-    img: '/profiles/endo.png',
+    img: 'profiles/endo.png',
     title: 'Эндокринология',
     short: 'Гормоны, щитовидная железа, вес',
     group: 'priem',
@@ -148,7 +148,7 @@ export const departments: Department[] = [
   },
   {
     id: 'therapy',
-    img: '/profiles/therapy.png',
+    img: 'profiles/therapy.png',
     title: 'Терапия',
     short: 'Первый шаг к здоровью',
     group: 'priem',
@@ -167,7 +167,7 @@ export const departments: Department[] = [
   },
   {
     id: 'pulmo',
-    img: '/profiles/pulmo.png',
+    img: 'profiles/pulmo.png',
     title: 'Пульмонология',
     short: 'Дыхательная система',
     group: 'priem',
@@ -184,7 +184,7 @@ export const departments: Department[] = [
   },
   {
     id: 'rheuma',
-    img: '/profiles/rheuma.png',
+    img: 'profiles/rheuma.png',
     title: 'Ревматология',
     short: 'Суставы и соединительная ткань',
     group: 'priem',
@@ -201,7 +201,7 @@ export const departments: Department[] = [
   },
   {
     id: 'oncology',
-    img: '/profiles/oncology.png',
+    img: 'profiles/oncology.png',
     title: 'Онкология',
     short: 'Ранняя диагностика и наблюдение',
     group: 'women',
@@ -218,7 +218,7 @@ export const departments: Department[] = [
   },
   {
     id: 'psycho',
-    img: '/profiles/psycho.png',
+    img: 'profiles/psycho.png',
     title: 'Психология',
     short: 'Опора для взрослых и детей',
     group: 'priem',
@@ -235,7 +235,7 @@ export const departments: Department[] = [
   },
   {
     id: 'uzi',
-    img: '/profiles/uzi.png',
+    img: 'profiles/uzi.png',
     title: 'УЗИ-диагностика',
     short: 'Точное УЗИ экспертного класса',
     group: 'diag',
@@ -255,7 +255,7 @@ export const departments: Department[] = [
   },
   {
     id: 'func-diag',
-    img: '/profiles/func-diag.png',
+    img: 'profiles/func-diag.png',
     title: 'Функциональная диагностика',
     short: 'ЭКГ, Холтер, СМАД',
     group: 'diag',
@@ -272,7 +272,7 @@ export const departments: Department[] = [
   },
   {
     id: 'analyses',
-    img: '/profiles/analyses.png',
+    img: 'profiles/analyses.png',
     title: 'Анализы',
     short: 'Лаборатория · результат онлайн',
     group: 'diag',
@@ -293,7 +293,7 @@ export const departments: Department[] = [
   },
   {
     id: 'massage',
-    img: '/profiles/massage.png',
+    img: 'profiles/massage.png',
     title: 'Медицинский массаж',
     short: 'Реабилитация и снятие боли',
     group: 'lechenie',
@@ -311,7 +311,7 @@ export const departments: Department[] = [
   },
   {
     id: 'laser',
-    img: '/profiles/laser.png',
+    img: 'profiles/laser.png',
     title: 'Лазерная медицина',
     short: 'Малоинвазивные лазерные методики',
     group: 'lechenie',

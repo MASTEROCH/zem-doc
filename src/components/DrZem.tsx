@@ -129,14 +129,6 @@ export function DrZem({
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
   }, [msgs, typing]);
 
-  // QA / demo deep-link: ?zem=1 auto-opens the assistant
-  useEffect(() => {
-    if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('zem') === '1') {
-      openChat();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   function openChat() {
     setOpen(true);
     setShowHi(false);

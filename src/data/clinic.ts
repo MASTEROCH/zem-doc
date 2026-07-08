@@ -25,7 +25,7 @@ export const clinic = {
 
 export const stats = [
   { value: '16', label: 'направлений' },
-  { value: '25', label: 'врачей' },
+  { value: '16', label: 'врачей' },
   { value: '25 лет', label: 'средний стаж' },
   { value: '4.9', label: 'рейтинг' },
 ];

@@ -1,29 +1,34 @@
-# Земский Доктор — Telegram Mini App / веб-приложение медцентра
+# ANZH · Beauty TMA
 
-Многопрофильный медицинский центр (Калининград). Онлайн-запись к врачу, каталог направлений и специалистов, личный кабинет пациента и ИИ-помощник **dr.Zem**.
+Telegram Mini App для эстетической медицины — кабинет косметолога **Анжелики** (Батуми).
+Каталог процедур, запись со слотами, программа лояльности, AI-ассистент, паспорт здоровья.
 
-Прототип на **React 19 + Vite + TypeScript**, светлая тема в стиле **Liquid Glass**, фирменная палитра navy `#082344` + gold `#BE9E6F`.
+**Дизайн-язык:** ANZH.store petrol-luxe × roch-art green-glow × Apple **Liquid Glass** (iOS 26/27).
+Emerald `#12C088` + Gold `#F5C842` на petrol-teal `#061417`, плавающий glass-таббар,
+serif-акценты (Playfair) поверх читабельного Inter, concierge-орб вместо маскота.
 
-## Возможности
-- 🏠 **Главная** — витрина клиники: направления, врачи, акции, отзывы, рейтинги
-- 🩺 **16 направлений** с золотыми 3D-иконками (кардиология, гинекология, УЗИ, анализы…)
-- 👨‍⚕️ **25 врачей** — каталог с поиском и фильтром по специальности, карточки с фото
-- 📅 **Онлайн-запись** — мастер из 3 шагов (направление/врач → дата/время → контакты)
-- 👤 **Кабинет** — медкарта, бонусы, мои записи, анализы, документы
-- 🤖 **dr.Zem** — уникальный ИИ-маскот с живой мимикой и VFX: подбирает врача по симптомам и ведёт к записи
-- ℹ️ **О клинике** — контакты, карта, часы работы, FAQ
+## Стек
+Vite · React 18 · TypeScript. Без бэкенда — интерактивный прототип.
 
 ## Запуск
 ```bash
 npm install
-npm run dev      # http://localhost:5179
-npm run build    # → dist/
+npm run dev      # http://localhost:5173
+npm run build    # production build → dist/
+```
+`?seed=1` в URL пропускает онбординг (для скриншот-тестов).
+
+## Структура
+```
+src/
+├── screens/      Onboarding · Profile · Catalog · Service · Booking · Confirm · Account · Anzh
+├── components/   BottomNav · ConciergeOrb · AiChatBubble · UIHost · Icon
+├── data/         services · profile
+├── lib/          ui · chat/mascot events
+└── styles/       tokens.css (design system) · global.css
 ```
 
-## Deep-links (для демо)
-- `?screen=doctors` — открыть конкретный экран
-- `?zem=1` — открыть чат dr.Zem
-- `?seed=1` — пропустить онбординг
-
 ---
-Дизайн и разработка: ROCH · Wibe Design. Данные и фирменный стиль адаптированы с zem-doc.ru.
+
+🎨 Design & build by **ROCH** — виртуальный мозг-дизайнер · [roch-art.com](https://roch-art.com)
+© Roman Chernyavsky
