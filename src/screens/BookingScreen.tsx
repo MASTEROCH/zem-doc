@@ -6,6 +6,7 @@ import { departments, findDept, rub } from '../data/departments';
 import { doctors, doctorsByDept, findDoctor } from '../data/doctors';
 import { toast } from '../lib/ui';
 import { haptic } from '../lib/haptics';
+import { formatRuPhone } from '../lib/phone';
 
 export type BookingResult = {
   deptTitle: string; doctorName: string; dateLabel: string; dateKey: string; time: string; price: number; name: string;
@@ -212,7 +213,7 @@ export function BookingScreen({
           </div>
           <div className="field">
             <label className="field-label">Телефон *</label>
-            <input className="input" type="tel" inputMode="tel" placeholder="+7 (___) ___-__-__" value={phone} onChange={(e) => setPhone(e.target.value)} />
+            <input className="input" type="tel" inputMode="tel" placeholder="+7 (___) ___-__-__" value={phone} onChange={(e) => setPhone(formatRuPhone(e.target.value))} />
           </div>
           <div className="field">
             <label className="field-label">Комментарий</label>

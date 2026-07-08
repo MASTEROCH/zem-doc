@@ -30,7 +30,7 @@ export function DoctorsScreen({
     <div className="screen">
       <AppHeader />
       <div className="section" style={{ marginTop: 6 }}>
-        <div className="eyebrow"><Icon name="users" size={14} /> 25 специалистов</div>
+        <div className="eyebrow"><Icon name="users" size={14} /> {doctors.length} специалистов</div>
         <h1 className="section-title" style={{ fontSize: 24, marginTop: 6 }}>Наши <span className="serif">врачи</span></h1>
       </div>
 

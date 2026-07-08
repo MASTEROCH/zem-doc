@@ -6,6 +6,7 @@ import { openSheet, closeSheet, toast } from '../lib/ui';
 import { openZem } from '../lib/zem';
 import { useAppointments, upcoming, history, cancelAppointment, type Appointment } from '../lib/appointments';
 import { haptic } from '../lib/haptics';
+import { formatRuPhone } from '../lib/phone';
 
 const MO_SHORT = ['янв', 'фев', 'мар', 'апр', 'мая', 'июня', 'июля', 'авг', 'сен', 'окт', 'ноя', 'дек'];
 function apptDate(a: Appointment) {
@@ -218,7 +219,7 @@ function EditProfile({ name, phone, onSave }: { name: string; phone: string; onS
       </div>
       <div className="field">
         <label className="field-label">Телефон</label>
-        <input className="input" type="tel" inputMode="tel" value={p} onChange={(e) => setP(e.target.value)} placeholder="+7 (___) ___-__-__" />
+        <input className="input" type="tel" inputMode="tel" value={p} onChange={(e) => setP(formatRuPhone(e.target.value))} placeholder="+7 (___) ___-__-__" />
       </div>
       <button className="btn btn-primary btn-block btn-lg" style={{ marginTop: 6 }}
         onClick={() => { onSave(n.trim() || 'Пациент', p.trim()); closeSheet(); toast('Профиль обновлён', 'success'); }}>

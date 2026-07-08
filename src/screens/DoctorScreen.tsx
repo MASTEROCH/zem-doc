@@ -1,9 +1,47 @@
+import { useState } from 'react';
 import { TopBar } from '../components/AppHeader';
 import { Icon } from '../components/Icon';
 import { Stars } from '../components/Cards';
 import { findDoctor } from '../data/doctors';
 import { findDept, rub } from '../data/departments';
-import { openLightbox } from '../lib/ui';
+import { openLightbox, openSheet, closeSheet, toast } from '../lib/ui';
+import { haptic } from '../lib/haptics';
+
+type Review = { name: string; text: string; stars: number; fresh?: boolean };
+const BASE_REVIEWS: Review[] = [
+  { name: 'Елена', text: 'Внимательный и грамотный врач. Всё подробно объяснил, назначил понятное лечение. Спасибо!', stars: 5 },
+  { name: 'Сергей', text: 'Очень доволен приёмом — доброжелательно, профессионально, без лишних назначений.', stars: 5 },
+];
+
+function ReviewForm({ onSubmit }: { onSubmit: (r: Review) => void }) {
+  const [stars, setStars] = useState(5);
+  const [name, setName] = useState('');
+  const [text, setText] = useState('');
+  return (
+    <div>
+      <div className="row" style={{ justifyContent: 'center', gap: 8, padding: '6px 0 16px' }}>
+        {[1, 2, 3, 4, 5].map((n) => (
+          <button key={n} onClick={() => { haptic('light'); setStars(n); }} aria-label={`${n} из 5`} style={{ padding: 4 }}>
+            <Icon name="star" size={30} fill={n <= stars ? 'current' : 'none'}
+              style={{ color: n <= stars ? 'var(--gold)' : 'var(--text-hint)', transition: 'transform 0.15s var(--ease-spring)', transform: n === stars ? 'scale(1.15)' : 'none' }} />
+          </button>
+        ))}
+      </div>
+      <div className="field">
+        <label className="field-label">Ваше имя</label>
+        <input className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Как вас зовут" />
+      </div>
+      <div className="field">
+        <label className="field-label">Отзыв</label>
+        <textarea className="input" rows={4} value={text} onChange={(e) => setText(e.target.value)} placeholder="Поделитесь впечатлением о приёме…" style={{ height: 'auto', paddingTop: 12 }} />
+      </div>
+      <button className="btn btn-primary btn-block btn-lg" style={{ marginTop: 6 }} disabled={!text.trim()}
+        onClick={() => { onSubmit({ name: name.trim() || 'Пациент', text: text.trim(), stars, fresh: true }); }}>
+        <Icon name="check" size={18} strokeWidth={2.6} /> Отправить отзыв
+      </button>
+    </div>
+  );
+}
 
 export function DoctorScreen({
   doctorId, onBack, onBook, onOpenDept,
@@ -11,9 +49,16 @@ export function DoctorScreen({
   doctorId: string; onBack: () => void;
   onBook: (p: { doctorId?: string }) => void; onOpenDept: (id: string) => void;
 }) {
+  const [reviews, setReviews] = useState<Review[]>(BASE_REVIEWS);
   const d = findDoctor(doctorId);
   if (!d) return null;
   const depts = d.deptIds.map(findDept).filter(Boolean);
+
+  const leaveReview = () => openSheet({
+    title: 'Оставить отзыв',
+    subtitle: d.name,
+    body: <ReviewForm onSubmit={(r) => { setReviews((prev) => [r, ...prev]); closeSheet(); haptic('success'); toast('Спасибо! Ваш отзыв опубликован', 'success'); }} />,
+  });
 
   return (
     <div className="screen">
@@ -128,19 +173,22 @@ export function DoctorScreen({
           <span className="faint" style={{ fontSize: 12 }}>{d.reviews} отзывов</span>
         </div>
         <div className="wrap-gap">
-          {[
-            { name: 'Елена', text: 'Внимательный и грамотный врач. Всё подробно объяснил, назначил понятное лечение. Спасибо!' },
-            { name: 'Сергей', text: 'Очень доволен приёмом — доброжелательно, профессионально, без лишних назначений.' },
-          ].map((r) => (
-            <div className="card card-pad" key={r.name}>
+          {reviews.map((r, i) => (
+            <div className="card card-pad" key={r.name + i} style={r.fresh ? { animation: 'reveal 0.5s var(--ease-out) both', borderColor: 'rgba(190,158,111,0.4)' } : undefined}>
               <div className="between" style={{ marginBottom: 6 }}>
-                <div style={{ fontWeight: 700, fontSize: 13.5 }}>{r.name}</div>
-                <Stars n={5} size={12} />
+                <div className="row" style={{ gap: 8 }}>
+                  <div style={{ fontWeight: 700, fontSize: 13.5 }}>{r.name}</div>
+                  {r.fresh && <span className="badge gold">Новый</span>}
+                </div>
+                <Stars n={r.stars} size={12} />
               </div>
               <div className="muted" style={{ fontSize: 13, lineHeight: 1.5 }}>{r.text}</div>
             </div>
           ))}
         </div>
+        <button className="btn btn-outline brand btn-block" style={{ marginTop: 12 }} onClick={leaveReview}>
+          <Icon name="star" size={17} /> Оставить отзыв
+        </button>
       </div>
 
       <div className="dock">
