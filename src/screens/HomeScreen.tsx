@@ -5,6 +5,7 @@ import { departments } from '../data/departments';
 import { doctors } from '../data/doctors';
 import { advantages, reviews, promos, ratingSources } from '../data/clinic';
 import { toast } from '../lib/ui';
+import { CountUpInt } from '../lib/useCountUp';
 
 const QUICK = [
   { icon: 'calendar-check', label: 'Записаться', tone: 'brand' },
@@ -44,8 +45,8 @@ export function HomeScreen({
             <button className="btn btn-outline" style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }} onClick={onDepartments}>Направления</button>
           </div>
           <div className="hero-mini-stats">
-            <div><div className="v">16</div><div className="l">направлений</div></div>
-            <div><div className="v">25</div><div className="l">врачей</div></div>
+            <div><div className="v"><CountUpInt value={16} /></div><div className="l">направлений</div></div>
+            <div><div className="v"><CountUpInt value={25} /></div><div className="l">врачей</div></div>
             <div><div className="v">4.9<Icon name="star" size={12} fill="current" style={{ color: 'var(--gold-bright)', marginLeft: 3 }} /></div><div className="l">рейтинг</div></div>
           </div>
         </div>

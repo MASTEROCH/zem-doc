@@ -2,6 +2,7 @@ import { AppHeader } from '../components/AppHeader';
 import { Icon, type IconName } from '../components/Icon';
 import { clinic } from '../data/clinic';
 import { openSheet, toast } from '../lib/ui';
+import { CountUpInt } from '../lib/useCountUp';
 
 const TILES: { icon: IconName; label: string; tone: string; note: string }[] = [
   { icon: 'flask', label: 'Анализы', tone: 'teal', note: '2 готовы' },
@@ -59,7 +60,7 @@ export function AccountScreen({
           </div>
           <Icon name="shield-check" size={26} style={{ color: 'var(--gold-bright)' }} />
         </div>
-        <div className="mc-bonus"><b>380</b><span style={{ color: 'var(--text-on-navy-2)', fontSize: 13 }}>бонусных баллов</span></div>
+        <div className="mc-bonus"><b><CountUpInt value={380} duration={1500} /></b><span style={{ color: 'var(--text-on-navy-2)', fontSize: 13 }}>бонусных баллов</span></div>
         <div style={{ fontSize: 11.5, color: 'var(--text-on-navy-2)', marginTop: 8, position: 'relative' }}>
           Списывайте до 20% стоимости приёма
         </div>

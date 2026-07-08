@@ -69,6 +69,13 @@ export function BookingScreen({
     <div className="screen">
       <TopBar title="Онлайн-запись" onBack={() => (step === 0 ? onBack() : setStep(step - 1))} />
 
+      {(dept || doctor || selectedDay) && (
+        <div className="book-ctx">
+          {dept && <span className="ctx-chip filled"><Icon name="stethoscope" size={13} className="ic" /> {dept.title}</span>}
+          <span className="ctx-chip"><Icon name="user" size={13} className="ic" /> {doctor ? doctor.name.split(' ').slice(0, 2).join(' ') : 'Любой врач'}</span>
+          {selectedDay && <span className="ctx-chip"><Icon name="calendar-check" size={13} className="ic" /> {selectedDay.label}{time ? `, ${time}` : ''}</span>}
+        </div>
+      )}
       <div className="steps">
         {[0, 1, 2].map((i) => (
           <div key={i} className={`step-dot ${i < step ? 'done' : ''} ${i === step ? 'active' : ''}`} />

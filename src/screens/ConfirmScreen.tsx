@@ -1,4 +1,5 @@
 import { Icon } from '../components/Icon';
+import { Confetti } from '../components/Confetti';
 import { clinic } from '../data/clinic';
 import { rub } from '../data/departments';
 import type { BookingResult } from './BookingScreen';
@@ -9,6 +10,7 @@ export function ConfirmScreen({
   return (
     <div className="screen">
       <div className="confirm-wrap">
+        <Confetti />
         <div className="confirm-check"><Icon name="check" size={48} strokeWidth={2.6} /></div>
         <h1>Запись создана!</h1>
         <p>Администратор клиники «Земский Доктор» свяжется с вами для подтверждения.</p>

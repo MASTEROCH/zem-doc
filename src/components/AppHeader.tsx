@@ -1,12 +1,25 @@
+import { useEffect, useRef, useState } from 'react';
 import { Icon, type IconName } from './Icon';
 import { clinic } from '../data/clinic';
 
-/** Общий заголовок с брендом «Земский Доктор» */
+/** Общий заголовок с брендом «Земский Доктор» + реакция на скролл */
 export function AppHeader({
   action, flat = false,
 }: { action?: { icon: IconName; onClick: () => void; dot?: boolean; label: string }; flat?: boolean }) {
+  const ref = useRef<HTMLElement>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const screen = ref.current?.closest('.screen') as HTMLElement | null;
+    if (!screen) return;
+    const onScroll = () => setScrolled(screen.scrollTop > 6);
+    screen.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => screen.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className={`app-header ${flat ? 'flat' : ''}`}>
+    <header ref={ref} className={`app-header ${flat ? 'flat' : ''} ${scrolled ? 'scrolled' : ''}`}>
       <div className="app-header-row">
         <div className="brand-lockup">
           <div className="brand-mark"><Icon name="pulse" size={22} strokeWidth={2.4} /></div>
