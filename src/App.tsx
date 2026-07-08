@@ -65,7 +65,10 @@ export function App() {
 
   const setScreen = (s: Screen) => navigate(DEPTH[s] < DEPTH[screen] ? 'back' : 'fwd', () => setScreenRaw(s));
 
-  useEffect(() => { document.body.removeAttribute('data-near-bottom'); }, [screen]);
+  useEffect(() => {
+    document.body.removeAttribute('data-near-bottom');
+    document.body.toggleAttribute('data-tab', TAB_SCREENS.includes(screen));
+  }, [screen]);
   useEffect(() => {
     function onScroll(e: Event) {
       const el = e.target as HTMLElement | null;

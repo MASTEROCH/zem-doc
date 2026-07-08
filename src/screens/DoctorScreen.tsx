@@ -36,7 +36,7 @@ export function DoctorScreen({
             </div>
             <div style={{ width: 1, background: 'var(--border)', alignSelf: 'stretch' }} />
             <div className="center" style={{ flex: 1 }}>
-              <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--navy)' }}>{d.experience} лет</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--text-primary)' }}>{d.experience} лет</div>
               <div className="faint" style={{ fontSize: 11, marginTop: 3 }}>стаж</div>
             </div>
             <div style={{ width: 1, background: 'var(--border)', alignSelf: 'stretch' }} />

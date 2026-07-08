@@ -52,7 +52,7 @@ export function HomeScreen({
       body: (
         <div>
           <div className="row" style={{ gap: 10, marginBottom: 14 }}>
-            <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--navy)' }}>{rub(p.price)}</div>
+            <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--text-primary)' }}>{rub(p.price)}</div>
             <s className="faint" style={{ fontSize: 15 }}>{rub(p.old)}</s>
             <span className="badge gold" style={{ marginLeft: 'auto' }}>{p.badge}</span>
           </div>

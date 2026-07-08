@@ -8,7 +8,7 @@ export function OnboardingScreen({ onComplete, onSkip }: { onComplete: (name: st
 
   return (
     <div className="screen" style={{ display: 'flex', flexDirection: 'column' }}>
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 24px' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '20px 24px 40px' }}>
         <div className="center reveal">
           <div className="zem-onb"><ZemFace emotion="hi" /></div>
           <div className="eyebrow gold" style={{ justifyContent: 'center', marginTop: 4 }}>Медицинский центр · {clinic.city}</div>
