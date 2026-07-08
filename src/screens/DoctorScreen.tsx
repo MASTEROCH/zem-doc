@@ -83,6 +83,66 @@ export function DoctorScreen({
         </div>
       )}
 
+      {/* schedule */}
+      <div className="section">
+        <div className="section-title" style={{ fontSize: 17, marginBottom: 10 }}>График приёма</div>
+        <div className="tag-wrap">
+          {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'].map((day, i) => (
+            <span className="tag" key={day} style={{ opacity: i === 5 ? 0.45 : 1 }}>
+              <Icon name="clock" size={13} style={{ color: 'var(--brand)' }} /> {day}
+            </span>
+          ))}
+        </div>
+        <div className="card card-pad row" style={{ gap: 12, marginTop: 12, background: 'var(--ok-soft)', border: 'none' }}>
+          <Icon name="calendar-check" size={20} style={{ color: 'var(--ok)', flexShrink: 0 }} />
+          <div className="grow">
+            <div style={{ fontWeight: 700, fontSize: 14 }}>Ближайшее свободное окно</div>
+            <div className="faint" style={{ fontSize: 12 }}>{d.nextSlot}</div>
+          </div>
+          <button className="btn btn-outline brand btn-sm" onClick={() => onBook({ doctorId })}>Выбрать</button>
+        </div>
+      </div>
+
+      {/* education / regalia */}
+      <div className="section">
+        <div className="section-title" style={{ fontSize: 17, marginBottom: 10 }}>Образование и опыт</div>
+        <div className="list-card">
+          {[
+            d.category ? `Квалификация — ${d.category}` : 'Сертифицированный специалист',
+            `Стаж работы — ${d.experience} лет`,
+            'Регулярное повышение квалификации, профильные конференции',
+            'Индивидуальный подход, приём взрослых пациентов',
+          ].map((t) => (
+            <div className="contact-item" key={t}>
+              <span className="menu-ic"><Icon name="award" size={18} /></span>
+              <div className="grow" style={{ fontSize: 13.5, lineHeight: 1.4 }}>{t}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* reviews */}
+      <div className="section">
+        <div className="section-head" style={{ marginBottom: 10 }}>
+          <div className="section-title" style={{ fontSize: 17 }}>Отзывы</div>
+          <span className="faint" style={{ fontSize: 12 }}>{d.reviews} отзывов</span>
+        </div>
+        <div className="wrap-gap">
+          {[
+            { name: 'Елена', text: 'Внимательный и грамотный врач. Всё подробно объяснил, назначил понятное лечение. Спасибо!' },
+            { name: 'Сергей', text: 'Очень доволен приёмом — доброжелательно, профессионально, без лишних назначений.' },
+          ].map((r) => (
+            <div className="card card-pad" key={r.name}>
+              <div className="between" style={{ marginBottom: 6 }}>
+                <div style={{ fontWeight: 700, fontSize: 13.5 }}>{r.name}</div>
+                <Stars n={5} size={12} />
+              </div>
+              <div className="muted" style={{ fontSize: 13, lineHeight: 1.5 }}>{r.text}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="dock">
         <button className="btn btn-primary btn-block btn-lg" onClick={() => onBook({ doctorId })}>
           <Icon name="calendar-check" size={20} /> Записаться к врачу

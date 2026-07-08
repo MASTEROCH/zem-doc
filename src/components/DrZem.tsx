@@ -21,8 +21,6 @@ export function ZemFace({ emotion = 'idle' }: { emotion?: Emotion }) {
       <div className="zem-orb-shade" />
       <div className="zem-orb-gloss" />
       <svg className="zem-svg" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-        <path className="zem-inhead-spark" d="M20 24l1.2 3.2L24.5 28l-3.3 1.2L20 32l-1.2-3.2L15.5 28l3.3-1.2L20 24z" fill="#BE9E6F" style={{ animationDelay: '0.2s' }} />
-        <path className="zem-inhead-spark" d="M82 30l.8 2.2L85 33l-2.2.8L82 36l-.8-2.2L79 33l2.2-.8L82 30z" fill="#1C8FD6" style={{ animationDelay: '1s' }} />
         <g className="zem-eyes-open">
           <g className="zem-pupils">
             <ellipse cx="37" cy="47" rx="5" ry="6.6" fill="#0C2033" />
@@ -43,8 +41,7 @@ export function ZemFace({ emotion = 'idle' }: { emotion?: Emotion }) {
           <ellipse cx="28" cy="58" rx="6" ry="4" fill="#E8A0A0" opacity="0.6" />
           <ellipse cx="72" cy="58" rx="6" ry="4" fill="#E8A0A0" opacity="0.6" />
         </g>
-        <path className="zem-mouth" d="M34 63c3 4 7 5 11 3l2-4 2 7 2-4c3 1 6 0 9-3"
-          stroke="#BE9E6F" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        <path className="zem-mouth" d="M40 60q10 9 20 0" stroke="#BE9E6F" strokeWidth="3.6" strokeLinecap="round" fill="none" />
       </svg>
     </div>
   );
@@ -210,10 +207,7 @@ export function DrZem({
   return (
     <>
       <button className="zem-fab" onClick={openChat} aria-label="Чат с dr.Zem">
-        <div className="zem-vfx">
-          <div className="zem-aura" /><div className="zem-ring" /><div className="zem-ring r2" />
-          <div className="zem-spark" /><div className="zem-spark s2" /><div className="zem-spark s3" />
-        </div>
+        <div className="zem-vfx"><div className="zem-aura" /></div>
         <ZemFace emotion={emotion} />
         {badge && <span className="zem-badge">1</span>}
       </button>

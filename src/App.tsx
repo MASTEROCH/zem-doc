@@ -25,10 +25,17 @@ export type Screen =
 
 const TAB_SCREENS: Screen[] = ['home', 'departments', 'doctors', 'account'];
 
-function navigate(setter: () => void) {
+const DEPTH: Record<Screen, number> = {
+  home: 0, departments: 0, doctors: 0, account: 0,
+  department: 1, doctor: 1, booking: 1, clinic: 1, prices: 1, news: 1, promotions: 1, confirm: 2,
+};
+
+function navigate(dir: 'fwd' | 'back', setter: () => void) {
   const d = document as Document & { startViewTransition?: (cb: () => void) => unknown };
-  if (typeof d.startViewTransition === 'function') d.startViewTransition(setter);
-  else setter();
+  if (typeof d.startViewTransition === 'function') {
+    document.documentElement.dataset.dir = dir;
+    d.startViewTransition(setter);
+  } else setter();
 }
 
 function initialScreen(): Screen {
@@ -53,7 +60,7 @@ export function App() {
   });
   const [userName, setUserName] = useState('Гость');
 
-  const setScreen = (s: Screen) => navigate(() => setScreenRaw(s));
+  const setScreen = (s: Screen) => navigate(DEPTH[s] < DEPTH[screen] ? 'back' : 'fwd', () => setScreenRaw(s));
 
   useEffect(() => { document.body.removeAttribute('data-near-bottom'); }, [screen]);
   useEffect(() => {
@@ -121,7 +128,7 @@ export function App() {
         <DoctorScreen doctorId={doctorId} onBack={() => setScreen('doctors')} onBook={openBooking} onOpenDept={openDept} />
       )}
       {screen === 'booking' && (
-        <BookingScreen prefill={prefill} onBack={() => setScreen('home')}
+        <BookingScreen prefill={prefill} userName={userName} onBack={() => setScreen('home')}
           onConfirm={(r) => { setResult(r); setScreen('confirm'); }} />
       )}
       {screen === 'confirm' && result && (

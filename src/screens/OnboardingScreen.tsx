@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Icon } from '../components/Icon';
+import { ZemFace } from '../components/DrZem';
 import { clinic, stats } from '../data/clinic';
 
 export function OnboardingScreen({ onComplete, onSkip }: { onComplete: (name: string) => void; onSkip: () => void }) {
@@ -9,10 +10,8 @@ export function OnboardingScreen({ onComplete, onSkip }: { onComplete: (name: st
     <div className="screen" style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 24px' }}>
         <div className="center reveal">
-          <div className="brand-mark" style={{ width: 64, height: 64, borderRadius: 20, margin: '0 auto 18px' }}>
-            <Icon name="pulse" size={34} strokeWidth={2.4} />
-          </div>
-          <div className="eyebrow gold" style={{ justifyContent: 'center' }}>Медицинский центр · {clinic.city}</div>
+          <div className="zem-onb"><ZemFace emotion="hi" /></div>
+          <div className="eyebrow gold" style={{ justifyContent: 'center', marginTop: 4 }}>Медицинский центр · {clinic.city}</div>
           <h1 style={{ fontSize: 30, marginTop: 12 }}>Земский <span className="serif" style={{ color: 'var(--gold-deep)' }}>Доктор</span></h1>
           <p className="muted" style={{ marginTop: 12, fontSize: 15, lineHeight: 1.55, maxWidth: '30ch', marginInline: 'auto' }}>
             Ваше здоровье — наш приоритет. Онлайн-запись к врачу, 16 направлений и экспертная диагностика в одном приложении.
