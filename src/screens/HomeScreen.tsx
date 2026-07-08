@@ -1,11 +1,15 @@
+import { useRef } from 'react';
 import { AppHeader } from '../components/AppHeader';
 import { Icon } from '../components/Icon';
 import { DeptCard, DoctorMini, PromoCard } from '../components/Cards';
 import { departments } from '../data/departments';
-import { doctors } from '../data/doctors';
-import { advantages, reviews, promos, ratingSources } from '../data/clinic';
-import { toast } from '../lib/ui';
+import { doctors, findDoctor } from '../data/doctors';
+import { advantages, reviews, promos, ratingSources, type Promo } from '../data/clinic';
+import { rub } from '../data/departments';
+import { toast, openSheet, closeSheet } from '../lib/ui';
+import { openZem } from '../lib/zem';
 import { CountUpInt } from '../lib/useCountUp';
+import { useAutoScroll } from '../lib/useAutoScroll';
 
 const QUICK = [
   { icon: 'calendar-check', label: 'Записаться', tone: 'brand' },
@@ -23,12 +27,77 @@ export function HomeScreen({
   const popular = departments.filter((d) => d.popular);
   const topDoctors = [...doctors].sort((a, b) => b.rating - a.rating).slice(0, 8);
 
+  const promoRef = useRef<HTMLDivElement>(null);
+  const docRef = useRef<HTMLDivElement>(null);
+  const revRef = useRef<HTMLDivElement>(null);
+  useAutoScroll(promoRef, 0.32);
+  useAutoScroll(docRef, 0.28);
+  useAutoScroll(revRef, 0.3);
+
   const quickAction = (label: string) => {
     if (label === 'Записаться') onBook();
     else if (label === 'Врачи') onDoctors();
     else if (label === 'Анализы') onOpenDept('analyses');
-    else if (label === 'Позвонить') { window.location.href = 'tel:+74012663030'; }
+    else window.location.href = 'tel:+74012663030';
   };
+
+  function openPromo(p: Promo) {
+    const doc = p.doctorId ? findDoctor(p.doctorId) : undefined;
+    openSheet({
+      title: p.title,
+      subtitle: p.text,
+      body: (
+        <div>
+          <div className="row" style={{ gap: 10, marginBottom: 14 }}>
+            <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--navy)' }}>{rub(p.price)}</div>
+            <s className="faint" style={{ fontSize: 15 }}>{rub(p.old)}</s>
+            <span className="badge gold" style={{ marginLeft: 'auto' }}>{p.badge}</span>
+          </div>
+
+          <div className="field-label">Что входит</div>
+          <div style={{ marginBottom: 14 }}>
+            {p.includes.map((it) => (
+              <div key={it} className="row" style={{ gap: 9, padding: '5px 0' }}>
+                <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--ok-soft)', color: 'var(--ok)', display: 'grid', placeItems: 'center', flex: 'none' }}><Icon name="check" size={13} strokeWidth={3} /></span>
+                <span style={{ fontSize: 13.5 }}>{it}</span>
+              </div>
+            ))}
+          </div>
+
+          {doc && (
+            <>
+              <div className="field-label">Ведёт</div>
+              <button className="zem-doc-sg" style={{ width: '100%', marginBottom: 14 }} onClick={() => { closeSheet(); onOpenDoctor(doc.id); }}>
+                <img src={doc.photo} alt="" />
+                <div className="grow" style={{ textAlign: 'left' }}>
+                  <div style={{ fontWeight: 700, fontSize: 13.5 }}>{doc.name}</div>
+                  <div className="faint" style={{ fontSize: 11.5 }}>{doc.role} · стаж {doc.experience} лет</div>
+                </div>
+                <Icon name="chevron-right" size={18} className="faint" />
+              </button>
+            </>
+          )}
+
+          <div className="row" style={{ gap: 10, padding: '10px 0', borderTop: '1px solid var(--border-2)' }}>
+            <Icon name="clock" size={18} style={{ color: 'var(--brand)' }} />
+            <div><div className="faint" style={{ fontSize: 11 }}>Когда можно прийти</div><div style={{ fontSize: 13.5, fontWeight: 600 }}>{p.when}</div></div>
+          </div>
+          <div className="row" style={{ gap: 10, padding: '10px 0', borderTop: '1px solid var(--border-2)' }}>
+            <Icon name="award" size={18} style={{ color: 'var(--gold-deep)' }} />
+            <div><div className="faint" style={{ fontSize: 11 }}>Результат</div><div style={{ fontSize: 13.5, fontWeight: 600, lineHeight: 1.4 }}>{p.result}</div></div>
+          </div>
+        </div>
+      ),
+      actions: (
+        <>
+          <button className="btn btn-primary btn-block btn-lg" onClick={() => { closeSheet(); onBook(); }}>
+            <Icon name="calendar-check" size={20} /> Записаться · {rub(p.price)}
+          </button>
+          <button className="btn btn-ghost btn-block" onClick={closeSheet}>Закрыть</button>
+        </>
+      ),
+    });
+  }
 
   return (
     <div className="screen">
@@ -42,7 +111,7 @@ export function HomeScreen({
           <p className="hero-sub">Многопрофильный медцентр в Калининграде. 25 врачей, современная диагностика, запись за минуту.</p>
           <div className="hero-cta">
             <button className="btn btn-gold" onClick={onBook}><Icon name="calendar-check" size={18} /> Записаться</button>
-            <button className="btn btn-outline" style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }} onClick={onDepartments}>Направления</button>
+            <button className="btn btn-outline" style={{ background: 'rgba(255,255,255,0.14)', color: '#fff', borderColor: 'rgba(255,255,255,0.35)' }} onClick={onDepartments}>Направления</button>
           </div>
           <div className="hero-mini-stats">
             <div><div className="v"><CountUpInt value={16} /></div><div className="l">направлений</div></div>
@@ -62,6 +131,18 @@ export function HomeScreen({
         ))}
       </div>
 
+      {/* dr.Zem entry strip */}
+      <div className="section" style={{ marginTop: 20 }}>
+        <button className="card card-pad row" style={{ width: '100%', gap: 12, textAlign: 'left', background: 'linear-gradient(120deg, #fff, var(--brand-soft))' }} onClick={() => openZem()}>
+          <span style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(155deg,var(--brand-bright),var(--brand-deep))', color: '#fff', display: 'grid', placeItems: 'center', flex: 'none' }}><Icon name="sparkle-ai" size={24} /></span>
+          <div className="grow">
+            <div style={{ fontWeight: 800, fontSize: 15 }}>Спросите dr.Zem</div>
+            <div className="faint" style={{ fontSize: 12.5 }}>ИИ-приёмная: подберёт врача, ответит на вопросы</div>
+          </div>
+          <Icon name="message" size={20} style={{ color: 'var(--brand)' }} />
+        </button>
+      </div>
+
       {/* POPULAR DEPARTMENTS */}
       <div className="section">
         <div className="section-head">
@@ -69,26 +150,27 @@ export function HomeScreen({
           <button className="section-link" onClick={onDepartments}>Все 16 <Icon name="chevron-right" size={14} /></button>
         </div>
       </div>
-      <div className="dept-scroll">
+      <div className="dept-scroll edge-fade">
         {popular.map((d) => <DeptCard key={d.id} dept={d} onClick={() => onOpenDept(d.id)} />)}
       </div>
 
-      {/* PROMOS */}
+      {/* PROMOS — auto-marquee */}
       <div className="section" style={{ marginTop: 22 }}>
         <div className="section-head"><div className="section-title">Акции и <span className="serif">комплексы</span></div></div>
       </div>
-      <div className="promo-scroll">
-        {promos.map((p) => <PromoCard key={p.id} p={p} onBook={onBook} />)}
+      <div className="promo-scroll edge-fade auto-scroll" ref={promoRef}>
+        {promos.map((p) => <PromoCard key={p.id} p={p} onOpen={openPromo} />)}
+        {promos.map((p) => <PromoCard key={p.id + '-2'} p={p} onOpen={openPromo} />)}
       </div>
 
-      {/* TOP DOCTORS */}
+      {/* TOP DOCTORS — auto-marquee */}
       <div className="section" style={{ marginTop: 22 }}>
         <div className="section-head">
           <div className="section-title">Наши <span className="serif">врачи</span></div>
           <button className="section-link" onClick={onDoctors}>Все 25 <Icon name="chevron-right" size={14} /></button>
         </div>
       </div>
-      <div className="doc-hscroll">
+      <div className="doc-hscroll edge-fade auto-scroll" ref={docRef}>
         {topDoctors.map((d) => <DoctorMini key={d.id} doc={d} onClick={() => onOpenDoctor(d.id)} />)}
       </div>
 
@@ -125,11 +207,11 @@ export function HomeScreen({
         </div>
       </div>
 
-      {/* REVIEWS */}
+      {/* REVIEWS — auto-marquee */}
       <div className="section" style={{ marginTop: 22 }}>
         <div className="section-head"><div className="section-title">Отзывы <span className="serif">пациентов</span></div></div>
       </div>
-      <div className="review-scroll">
+      <div className="review-scroll edge-fade auto-scroll" ref={revRef}>
         {reviews.map((r) => (
           <div className="review-card" key={r.id}>
             <div className="review-top">
@@ -142,23 +224,23 @@ export function HomeScreen({
         ))}
       </div>
 
-      {/* CTA */}
+      {/* CTA → dr.Zem */}
       <div className="section" style={{ marginTop: 24 }}>
         <div className="cta-banner">
           <h3>Не знаете, к какому врачу?</h3>
-          <p>Спросите dr.Zem — наш ИИ-помощник подберёт специалиста по симптомам за минуту.</p>
-          <button className="btn btn-gold" onClick={onBook}><Icon name="calendar-check" size={18} /> Записаться на приём</button>
+          <p>Спросите dr.Zem — ИИ-приёмная подберёт специалиста по симптомам за минуту.</p>
+          <button className="btn btn-gold" onClick={() => openZem()}><Icon name="sparkle-ai" size={18} /> Спросить dr.Zem</button>
         </div>
       </div>
 
-      {/* footer mini */}
+      {/* clinic link */}
       <div className="section" style={{ marginTop: 18 }}>
         <button className="card card-pad between" style={{ width: '100%' }} onClick={onClinic}>
           <div className="row" style={{ gap: 12 }}>
-            <span className="contact-ic"><Icon name="pin" size={20} /></span>
+            <span className="contact-ic"><Icon name="info" size={20} /></span>
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontWeight: 700, fontSize: 14 }}>ул. Космонавта Леонова, 74</div>
-              <div className="faint" style={{ fontSize: 12 }}>Пн–Пт 09–20 · Сб–Вс 09–15</div>
+              <div style={{ fontWeight: 700, fontSize: 14 }}>О клинике и контакты</div>
+              <div className="faint" style={{ fontSize: 12 }}>Адрес, часы, карта, вопросы</div>
             </div>
           </div>
           <Icon name="chevron-right" size={18} className="faint" />

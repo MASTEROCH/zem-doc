@@ -5,9 +5,9 @@ import { DeptCard } from '../components/Cards';
 import { departments, GROUPS } from '../data/departments';
 
 export function DepartmentsScreen({
-  onOpenDept, favorites, onToggleFav,
-}: { onOpenDept: (id: string) => void; favorites: Set<string>; onToggleFav: (id: string) => void }) {
-  const [group, setGroup] = useState<string>('all');
+  onOpenDept, favorites, onToggleFav, initialGroup = 'all',
+}: { onOpenDept: (id: string) => void; favorites: Set<string>; onToggleFav: (id: string) => void; initialGroup?: string }) {
+  const [group, setGroup] = useState<string>(initialGroup);
   const [q, setQ] = useState('');
 
   const list = useMemo(() => {
@@ -54,13 +54,9 @@ export function DepartmentsScreen({
           <div key={d.id} style={{ position: 'relative' }}>
             <DeptCard dept={d} onClick={() => onOpenDept(d.id)} />
             <button
+              className={`fav-btn ${favorites.has(d.id) ? 'on' : ''}`}
               onClick={(e) => { e.stopPropagation(); onToggleFav(d.id); }}
               aria-label="В избранное"
-              style={{
-                position: 'absolute', top: 10, left: 10, width: 30, height: 30, borderRadius: '50%',
-                display: 'grid', placeItems: 'center', background: 'rgba(255,255,255,0.85)',
-                backdropFilter: 'blur(6px)', border: '1px solid var(--border)', color: favorites.has(d.id) ? 'var(--danger)' : 'var(--text-faint)',
-              }}
             >
               <Icon name={favorites.has(d.id) ? 'heart-filled' : 'heart'} size={15} />
             </button>

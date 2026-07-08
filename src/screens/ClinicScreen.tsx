@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TopBar } from '../components/AppHeader';
 import { Icon, type IconName } from '../components/Icon';
-import { clinic, stats, advantages, faq } from '../data/clinic';
+import { clinic, stats, advantages, faq, aboutClinic } from '../data/clinic';
 
 export function ClinicScreen({ onBack, onBook }: { onBack: () => void; onBook: () => void }) {
   const [open, setOpen] = useState<number | null>(0);
@@ -34,6 +34,22 @@ export function ClinicScreen({ onBack, onBook }: { onBack: () => void; onBook: (
           {stats.map((s) => (
             <div className="stat" key={s.label}><div className="stat-value gold">{s.value}</div><div className="stat-label">{s.label}</div></div>
           ))}
+        </div>
+      </div>
+
+      {/* about text */}
+      <div className="section">
+        <div className="section-head" style={{ marginBottom: 10 }}><div className="section-title" style={{ fontSize: 18 }}>О нас</div></div>
+        <div className="card card-pad">
+          <p className="muted" style={{ fontSize: 14, lineHeight: 1.6 }}>{aboutClinic.lead}</p>
+          <p className="muted" style={{ fontSize: 14, lineHeight: 1.6, marginTop: 10 }}>{aboutClinic.body}</p>
+          <div className="row" style={{ gap: 10, marginTop: 14, paddingTop: 14, borderTop: '1px solid var(--border-2)' }}>
+            <Icon name="shield-check" size={18} style={{ color: 'var(--gold-deep)' }} />
+            <div className="faint" style={{ fontSize: 12 }}>Лицензия на медицинскую деятельность {aboutClinic.license}</div>
+          </div>
+        </div>
+        <div className="cta-banner" style={{ marginTop: 12, padding: 16 }}>
+          <p style={{ margin: 0, position: 'relative' }} className="serif">«{aboutClinic.mission}»</p>
         </div>
       </div>
 

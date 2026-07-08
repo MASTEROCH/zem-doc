@@ -121,18 +121,29 @@ h1, h2, h3 { color: var(--text-primary); line-height: 1.14; letter-spacing: -0.0
 }
 .btn:active { transform: scale(0.96); }
 .btn-primary {
-  background: linear-gradient(180deg, var(--brand-bright), var(--brand));
-  color: #fff; box-shadow: var(--shadow-brand), inset 0 1px 0 rgba(255,255,255,0.35);
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+  color: #3a2e17; box-shadow: var(--shadow-gold), inset 0 1px 0 rgba(255,255,255,0.5);
 }
 .btn-primary:active { filter: brightness(0.97); }
+/* animated glint travelling around the CTA outline */
+.btn-primary::before, .btn-gold::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.6px; pointer-events: none;
+  background: conic-gradient(from var(--tglow), transparent 0deg, rgba(255,255,255,0.95) 32deg, rgba(255,255,255,0.2) 60deg, transparent 90deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: cta-glint 3.2s linear infinite;
+}
+@keyframes cta-glint { to { --tglow: 360deg; } }
 .btn-gold {
   background: linear-gradient(180deg, var(--gold-bright), var(--gold));
   color: #3a2e17; box-shadow: var(--shadow-gold), inset 0 1px 0 rgba(255,255,255,0.5);
 }
 .btn-navy { background: linear-gradient(180deg, var(--navy-700), var(--navy)); color: #fff; box-shadow: var(--shadow-raise); }
 .btn-ghost { background: var(--surface-3); color: var(--text-primary); }
-.btn-outline { background: var(--surface); color: var(--brand); border: 1.5px solid var(--border-strong); }
-.btn-outline.brand { border-color: rgba(14,107,168,0.4); }
+.btn-outline { background: var(--surface-2); color: var(--gold-deep); border: 1.5px solid rgba(190,158,111,0.32); box-shadow: var(--shadow-xs); font-weight: 700; }
+.btn-outline:active { background: var(--gold-soft); }
+.btn-outline.brand { color: var(--brand); border-color: rgba(14,107,168,0.35); }
+.btn-outline.brand:active { background: var(--brand-soft); }
 .btn-block { display: flex; width: 100%; }
 .btn-lg { height: 54px; font-size: 16px; border-radius: 18px; }
 .btn-sm { height: 38px; font-size: 13.5px; padding: 0 14px; }
@@ -275,7 +286,7 @@ h1, h2, h3 { color: var(--text-primary); line-height: 1.14; letter-spacing: -0.0
 /* ════════════════════════════════════════════════════════
    DEPARTMENTS (golden 3D icons)
    ════════════════════════════════════════════════════════ */
-.dept-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 16px; }
+.dept-grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-auto-rows: 1fr; gap: 12px; padding: 0 16px; }
 .dept-card {
   position: relative; overflow: hidden; padding: 14px; border-radius: var(--radius-lg);
   background: linear-gradient(170deg, #fff, var(--surface-tint));
@@ -294,7 +305,9 @@ h1, h2, h3 { color: var(--text-primary); line-height: 1.14; letter-spacing: -0.0
 }
 .dept-card.wide .dept-icon { width: 60px; height: 60px; }
 .dept-title { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; }
-.dept-short { font-size: 11.5px; color: var(--text-hint); margin-top: 3px; line-height: 1.3; }
+.dept-short { font-size: 11.5px; color: var(--text-hint); margin-top: 3px; line-height: 1.3; min-height: 2.7em; }
+.dept-grid > * { height: 100%; }
+.dept-grid > * > .dept-card { height: 100%; }
 .dept-card .badge.pop { position: absolute; top: 12px; right: 12px; }
 .dept-foot { margin-top: auto; padding-top: 10px; display: flex; align-items: center; justify-content: space-between; }
 .dept-from { font-size: 11px; color: var(--text-hint); }
@@ -384,7 +397,7 @@ h1, h2, h3 { color: var(--text-primary); line-height: 1.14; letter-spacing: -0.0
   background: linear-gradient(150deg, var(--navy-700), var(--navy)); color: #fff; box-shadow: var(--shadow-pop);
 }
 .cta-banner::after { content:''; position:absolute; inset:0; background: radial-gradient(circle at 90% 20%, rgba(190,158,111,0.4), transparent 45%); }
-.cta-banner h3 { font-size: 18px; position: relative; }
+.cta-banner h3 { font-size: 18px; position: relative; color: #fff; }
 .cta-banner p { font-size: 13px; color: var(--text-on-navy-2); margin: 6px 0 14px; position: relative; }
 
 /* ════════════════════════════════════════════════════════
@@ -438,9 +451,10 @@ textarea.input { height: 92px; padding: 12px 15px; resize: none; line-height: 1.
 
 /* ── bottom docked CTA ─────────────────────────────────── */
 .dock {
-  position: sticky; bottom: 0; z-index: var(--z-bottom-cta); margin-top: 20px;
-  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, transparent, var(--bg-app) 30%);
+  position: fixed; left: 50%; transform: translateX(-50%); bottom: 0; z-index: var(--z-bottom-cta);
+  width: var(--max-w); max-width: 100vw;
+  padding: 16px 16px calc(18px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(244,247,251,0), var(--bg-app) 46%);
 }
 .dock-solo { padding-bottom: calc(var(--nav-h) + 20px + env(safe-area-inset-bottom)); }
 
@@ -522,11 +536,11 @@ textarea.input { height: 92px; padding: 12px 15px; resize: none; line-height: 1.
   position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--nav-gap) + env(safe-area-inset-bottom));
   z-index: var(--z-bottom-nav); width: calc(var(--max-w) - 24px); max-width: calc(100vw - 24px);
   height: var(--nav-h); display: flex; align-items: center; justify-content: space-around;
-  background: var(--glass-tint-strong); -webkit-backdrop-filter: blur(24px) saturate(150%); backdrop-filter: blur(24px) saturate(150%);
-  border: 1px solid rgba(255,255,255,0.7); border-radius: 24px; box-shadow: var(--glass-rim), var(--shadow-nav);
+  background: rgba(255,255,255,0.82); -webkit-backdrop-filter: blur(30px) saturate(185%); backdrop-filter: blur(30px) saturate(185%);
+  border: 1px solid rgba(255,255,255,0.92); border-radius: 26px; box-shadow: var(--glass-rim), var(--shadow-nav);
   padding: 0 6px;
 }
-.nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; height: 100%; justify-content: center; color: var(--text-hint); transition: color var(--duration-fast); position: relative; }
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; height: 100%; justify-content: center; color: var(--text-secondary); transition: color var(--duration-fast); position: relative; }
 .nav-item .nav-icon { display: grid; place-items: center; transition: transform var(--duration) var(--ease-spring); }
 .nav-item.active { color: var(--brand); }
 .nav-item.active .nav-icon { transform: translateY(-2px); }
@@ -716,15 +730,17 @@ body[data-near-bottom] .zem-fab { transform: translateY(30px) scale(0.85); opaci
 /* ── Bottom-nav sliding glass indicator ────────────────── */
 .bottom-nav { position: fixed; }
 .nav-indicator {
-  position: absolute; left: 0; top: 8px; height: 42px; border-radius: 16px; z-index: 0;
-  background: var(--brand-soft);
-  box-shadow: inset 0 0 0 1px rgba(14,107,168,0.12);
-  transition: transform 0.42s var(--ease-spring), width 0.42s var(--ease-spring), opacity 0.2s;
+  position: absolute; left: 0; top: 6px; height: 4px; border-radius: 4px; z-index: 2;
+  background: linear-gradient(90deg, var(--brand), var(--brand-bright));
+  box-shadow: 0 2px 10px rgba(14,107,168,0.55);
+  transition: transform 0.42s var(--ease-spring), width 0.3s var(--ease-out), opacity 0.2s;
   pointer-events: none;
 }
 .nav-item { position: relative; z-index: 1; }
 .nav-item .nav-icon { transition: transform 0.4s var(--ease-spring); }
-.nav-item.active .nav-icon { transform: translateY(-1px) scale(1.08); }
+.nav-item.active .nav-icon { transform: translateY(-1px) scale(1.1); }
+.nav-item.active { color: var(--brand-deep); }
+.nav-item.active .nav-label { color: var(--brand-deep); }
 /* remove old dot — indicator replaces it */
 .nav-item.active::before { display: none; }
 .nav-item.active .nav-label { font-weight: 700; }
@@ -785,3 +801,92 @@ body[data-near-bottom] .zem-fab { transform: translateY(30px) scale(0.85); opaci
 
 /* ── Reveal stagger (finer) ────────────────────────────── */
 .reveal-5 { animation-delay: 0.24s; } .reveal-6 { animation-delay: 0.30s; }
+
+/* ════════════════════════════════════════════════════════
+   ROCH-PREMIUM-PASS-2 · 2026-07-08 (Роч feedback batch)
+   frosted fav · favorites view · marquee · iOS26 glass · dr.Zem+
+   ════════════════════════════════════════════════════════ */
+
+/* ── Liquid-glass favorite button (frosted, translucent) ─ */
+.fav-btn {
+  position: absolute; top: 10px; left: 10px; width: 33px; height: 33px; border-radius: 50%;
+  display: grid; place-items: center; z-index: 3; color: var(--text-hint);
+  background: rgba(255,255,255,0.45);
+  -webkit-backdrop-filter: blur(12px) saturate(180%); backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.75);
+  box-shadow: var(--glass-rim), 0 4px 12px -4px rgba(16,42,74,0.22);
+  transition: transform 0.22s var(--ease-spring), color 0.2s, background 0.2s;
+}
+.fav-btn:active { transform: scale(0.85); }
+.fav-btn.on { color: var(--danger); background: rgba(251,231,229,0.7); border-color: rgba(216,82,74,0.3); }
+.fav-btn.on svg { animation: fav-pop 0.4s var(--ease-spring); }
+@keyframes fav-pop { 0% { transform: scale(0.6); } 55% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+/* ── Image fade-in (skeleton feel) ─────────────────────── */
+.img-fade { opacity: 0; transition: opacity 0.5s var(--ease-out); }
+.img-fade.loaded { opacity: 1; }
+.doc-photo, .dept-icon { background: var(--surface-3); }
+.dept-icon { background: transparent; }
+
+/* ── Edge-fade mask for horizontal scrollers ───────────── */
+.edge-fade {
+  -webkit-mask: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+          mask: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+}
+.auto-scroll { scroll-behavior: auto; }
+
+/* ── Favorites strip (home / account) ──────────────────── */
+.fav-empty { text-align: center; padding: 26px 16px; color: var(--text-hint); }
+
+/* ── iOS-26/27 Liquid Glass strengthening ──────────────── */
+/* richer specular + refraction on hero glass CTA, sheets, mascot chat */
+.bottom-nav::before, .sheet::before, .zem-chat::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0) 40%);
+  opacity: 0.7; z-index: 0;
+}
+.sheet, .zem-chat { position: fixed; }
+.bottom-nav > * { position: relative; z-index: 1; }
+/* outline-btn on hero → glass */
+.hero-card .btn-outline {
+  -webkit-backdrop-filter: blur(10px) saturate(160%); backdrop-filter: blur(10px) saturate(160%);
+}
+
+/* ── dr.Zem widget — PROMINENT + always reachable ──────── */
+.zem-fab { width: 68px; height: 68px; }
+/* do NOT vanish on scroll — just shrink & stay tappable */
+body[data-near-bottom] .zem-fab { transform: scale(0.9); opacity: 0.96; pointer-events: auto; }
+.zem-badge {
+  position: absolute; top: -2px; right: -2px; min-width: 20px; height: 20px; padding: 0 5px;
+  border-radius: 999px; background: var(--danger); color: #fff; font-size: 11px; font-weight: 800;
+  display: grid; place-items: center; border: 2px solid var(--bg-app); z-index: 4;
+  box-shadow: 0 3px 8px rgba(216,82,74,0.5); animation: badge-pop 0.5s var(--ease-spring);
+}
+@keyframes badge-pop { 0% { transform: scale(0); } 60% { transform: scale(1.25); } 100% { transform: scale(1); } }
+.zem-hi { max-width: 210px; white-space: normal; line-height: 1.35; cursor: pointer; }
+.zem-hi::after { content: ''; position: absolute; right: -5px; bottom: 14px; width: 10px; height: 10px; background: var(--surface); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); transform: rotate(-45deg); }
+
+/* ── dr.Zem new emotions ───────────────────────────────── */
+/* wink: right eye becomes happy arc, left stays open */
+.zem-head.emo-wink .zem-eyes-open ellipse:nth-of-type(2),
+.zem-head.emo-wink .zem-eyes-open circle:nth-of-type(2) { opacity: 0; }
+.zem-head.emo-wink .zem-eyes-happy path:nth-of-type(2) { opacity: 1; }
+.zem-head.emo-wink .zem-eyes-happy path:nth-of-type(1) { opacity: 0; }
+/* idle eye-darting */
+.zem-head.emo-idle .zem-pupils { animation: eye-dart 7s ease-in-out infinite; }
+@keyframes eye-dart {
+  0%, 40%, 100% { transform: translate(0,0); }
+  46%, 54% { transform: translate(2.5px, 0); }
+  62%, 72% { transform: translate(-2.5px, 0.5px); }
+}
+
+/* ── Chat suggestion: doctor card ──────────────────────── */
+.zem-doc-sg { display: flex; gap: 10px; align-items: center; padding: 10px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-xs); margin-top: 4px; }
+.zem-doc-sg img { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; flex: none; }
+
+/* ── screen slide-in (premium transition) ──────────────── */
+.screen { animation: screen-in 0.34s var(--ease-out); }
+@keyframes screen-in { from { opacity: 0; transform: translateY(8px); } }
+
+/* ── Booking: cleaner spacing so CTA never overlaps ─────── */
+.book-scroll-pad { height: 96px; }

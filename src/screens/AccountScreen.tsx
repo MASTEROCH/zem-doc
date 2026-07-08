@@ -1,57 +1,76 @@
+import { useState } from 'react';
 import { AppHeader } from '../components/AppHeader';
 import { Icon, type IconName } from '../components/Icon';
 import { clinic } from '../data/clinic';
-import { openSheet, toast } from '../lib/ui';
-import { CountUpInt } from '../lib/useCountUp';
+import { openSheet, closeSheet, toast } from '../lib/ui';
+import { openZem } from '../lib/zem';
 
-const TILES: { icon: IconName; label: string; tone: string; note: string }[] = [
-  { icon: 'flask', label: 'Анализы', tone: 'teal', note: '2 готовы' },
-  { icon: 'file', label: 'Документы', tone: 'brand', note: '5' },
-  { icon: 'heart', label: 'Избранное', tone: 'gold', note: '2' },
-];
+function EditProfile({ name, phone, onSave }: { name: string; phone: string; onSave: (n: string, p: string) => void }) {
+  const [n, setN] = useState(name);
+  const [p, setP] = useState(phone);
+  return (
+    <div>
+      <div className="field">
+        <label className="field-label">Имя</label>
+        <input className="input" value={n} onChange={(e) => setN(e.target.value)} placeholder="Ваше имя" autoFocus />
+      </div>
+      <div className="field">
+        <label className="field-label">Телефон</label>
+        <input className="input" type="tel" value={p} onChange={(e) => setP(e.target.value)} placeholder="+7 (___) ___-__-__" />
+      </div>
+      <button className="btn btn-primary btn-block btn-lg" onClick={() => { onSave(n.trim() || 'Пациент', p.trim()); closeSheet(); toast('Профиль сохранён', 'success'); }}>
+        <Icon name="check" size={20} strokeWidth={2.6} /> Сохранить
+      </button>
+    </div>
+  );
+}
 
 export function AccountScreen({
-  userName, onBook, onClinic, onDoctors, onDepartments,
+  userName, onSetName, favCount, onBook, onClinic, onDoctors, onDepartments, onFavorites, onPrices, onNews, onPromotions,
 }: {
-  userName: string; onBook: () => void; onClinic: () => void;
-  onDoctors: () => void; onDepartments: () => void;
+  userName: string; onSetName: (n: string) => void; favCount: number;
+  onBook: () => void; onClinic: () => void; onDoctors: () => void; onDepartments: () => void;
+  onFavorites: () => void; onPrices: () => void; onNews: () => void; onPromotions: () => void;
 }) {
-  const initials = (userName || 'Г').trim().slice(0, 1).toUpperCase();
+  const [phone, setPhone] = useState('');
+  const displayName = userName === 'Гость' ? 'Пациент' : userName;
+  const initials = displayName.trim().slice(0, 1).toUpperCase();
+
+  const editProfile = () => openSheet({
+    title: 'Редактировать профиль',
+    body: <EditProfile name={displayName} phone={phone} onSave={(n, p) => { onSetName(n); setPhone(p); }} />,
+  });
+
+  const tiles = [
+    { icon: 'flask' as IconName, label: 'Анализы', tone: 'teal', note: '2 готовы', onClick: () => toast('Результаты анализов появятся здесь') },
+    { icon: 'file' as IconName, label: 'Документы', tone: 'brand', note: '5', onClick: () => toast('Ваши документы и заключения') },
+    { icon: 'heart' as IconName, label: 'Избранное', tone: 'gold', note: String(favCount), onClick: onFavorites },
+  ];
 
   const menu: { icon: IconName; label: string; val?: string; onClick: () => void }[] = [
     { icon: 'calendar-check', label: 'История приёмов', val: '8', onClick: () => toast('История приёмов') },
+    { icon: 'file', label: 'Прайс-лист', onClick: onPrices },
+    { icon: 'gift', label: 'Акции и комплексы', onClick: onPromotions },
     { icon: 'stethoscope', label: 'Направления', onClick: onDepartments },
-    { icon: 'users', label: 'Мои врачи', onClick: onDoctors },
-    { icon: 'bell', label: 'Уведомления', val: 'Вкл', onClick: () => toast('Настройки уведомлений') },
-    { icon: 'pin', label: 'О клинике и контакты', onClick: onClinic },
-    { icon: 'info', label: 'Поддержка', onClick: () => openSheet({
-        title: 'Поддержка',
-        subtitle: 'Мы на связи в рабочее время',
-        body: (
-          <div className="wrap-gap">
-            <a className="btn btn-primary btn-block" href={`tel:${clinic.phoneRaw}`}><Icon name="phone" size={18} /> Позвонить</a>
-            <a className="btn btn-ghost btn-block" href={clinic.whatsapp} target="_blank" rel="noreferrer"><Icon name="whatsapp" size={18} /> WhatsApp</a>
-            <a className="btn btn-ghost btn-block" href={clinic.telegram} target="_blank" rel="noreferrer"><Icon name="telegram" size={18} /> Telegram</a>
-          </div>
-        ),
-      }) },
+    { icon: 'users', label: 'Врачи', onClick: onDoctors },
+    { icon: 'bell', label: 'Новости и статьи', onClick: onNews },
+    { icon: 'info', label: 'О клинике и контакты', onClick: onClinic },
+    { icon: 'sparkle-ai', label: 'Спросить dr.Zem', onClick: () => openZem() },
   ];
 
   return (
     <div className="screen">
       <AppHeader action={{ icon: 'settings', onClick: () => toast('Настройки'), label: 'Настройки' }} />
 
-      {/* head */}
       <div className="acct-head">
         <div className="acct-avatar">{initials}</div>
         <div className="grow">
-          <div className="acct-name">{userName === 'Гость' ? 'Пациент' : userName}</div>
-          <div className="acct-sub">Пациент клиники «Земский Доктор»</div>
+          <div className="acct-name">{displayName}</div>
+          <div className="acct-sub">{phone || 'Пациент клиники «Земский Доктор»'}</div>
         </div>
-        <button className="icon-btn" onClick={() => toast('Редактировать профиль')}><Icon name="pencil" size={18} /></button>
+        <button className="icon-btn" onClick={editProfile} aria-label="Редактировать"><Icon name="pencil" size={18} /></button>
       </div>
 
-      {/* medical card */}
       <div className="mcard reveal">
         <div className="row1">
           <div>
@@ -60,17 +79,14 @@ export function AccountScreen({
           </div>
           <Icon name="shield-check" size={26} style={{ color: 'var(--gold-bright)' }} />
         </div>
-        <div className="mc-bonus"><b><CountUpInt value={380} duration={1500} /></b><span style={{ color: 'var(--text-on-navy-2)', fontSize: 13 }}>бонусных баллов</span></div>
-        <div style={{ fontSize: 11.5, color: 'var(--text-on-navy-2)', marginTop: 8, position: 'relative' }}>
-          Списывайте до 20% стоимости приёма
-        </div>
+        <div className="mc-bonus"><b>380</b><span style={{ color: 'var(--text-on-navy-2)', fontSize: 13 }}>бонусных баллов</span></div>
+        <div style={{ fontSize: 11.5, color: 'var(--text-on-navy-2)', marginTop: 8, position: 'relative' }}>Списывайте до 20% стоимости приёма</div>
       </div>
 
-      {/* tiles */}
       <div className="section" style={{ marginTop: 16 }}>
         <div className="row" style={{ gap: 10 }}>
-          {TILES.map((t) => (
-            <button key={t.label} className="card" style={{ flex: 1, padding: '14px 10px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }} onClick={() => toast(t.label)}>
+          {tiles.map((t) => (
+            <button key={t.label} className="card" style={{ flex: 1, padding: '14px 10px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }} onClick={t.onClick}>
               <span className={`quick-ic ${t.tone}`}><Icon name={t.icon} size={22} /></span>
               <div style={{ fontWeight: 700, fontSize: 12.5 }}>{t.label}</div>
               <div className="faint" style={{ fontSize: 11 }}>{t.note}</div>
@@ -79,7 +95,6 @@ export function AccountScreen({
         </div>
       </div>
 
-      {/* upcoming appointment */}
       <div className="section" style={{ marginTop: 18 }}>
         <div className="section-head" style={{ marginBottom: 10 }}>
           <div className="section-title" style={{ fontSize: 18 }}>Мои <span className="serif">записи</span></div>
@@ -96,8 +111,8 @@ export function AccountScreen({
             body: <div className="faint" style={{ fontSize: 13 }}>Кардиология · 14 июля, 15:30</div>,
             actions: (
               <>
-                <button className="btn btn-outline btn-block" onClick={() => { toast('Запись перенесена'); }}>Перенести</button>
-                <button className="btn btn-ghost btn-block" style={{ color: 'var(--danger)' }} onClick={() => toast('Запись отменена')}>Отменить запись</button>
+                <button className="btn btn-outline brand btn-block" onClick={() => { closeSheet(); toast('Запись перенесена'); }}>Перенести</button>
+                <button className="btn btn-ghost btn-block" style={{ color: 'var(--danger)' }} onClick={() => { closeSheet(); toast('Запись отменена'); }}>Отменить запись</button>
               </>
             ),
           })}><Icon name="pencil" size={17} /></button>
@@ -107,7 +122,6 @@ export function AccountScreen({
         </button>
       </div>
 
-      {/* menu */}
       <div className="section" style={{ marginTop: 18 }}>
         <div className="list-card">
           {menu.map((m) => (
@@ -122,10 +136,11 @@ export function AccountScreen({
       </div>
 
       <div className="section" style={{ marginTop: 14 }}>
-        <button className="btn btn-ghost btn-block" style={{ color: 'var(--danger)' }} onClick={() => toast('Демо: выход недоступен')}>
+        <a className="btn btn-outline brand btn-block" href={`tel:${clinic.phoneRaw}`}><Icon name="phone" size={18} /> {clinic.phone}</a>
+        <button className="btn btn-ghost btn-block" style={{ color: 'var(--danger)', marginTop: 10 }} onClick={() => toast('Демо: выход недоступен')}>
           <Icon name="logout" size={18} /> Выйти
         </button>
-        <p className="faint center" style={{ fontSize: 11, marginTop: 12 }}>Земский Доктор · демо-прототип v1.0</p>
+        <p className="faint center" style={{ fontSize: 11, marginTop: 12 }}>Земский Доктор · демо-прототип v1.2</p>
       </div>
     </div>
   );

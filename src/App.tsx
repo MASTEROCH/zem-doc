@@ -11,6 +11,9 @@ import { BookingScreen, type BookingResult } from './screens/BookingScreen';
 import { ConfirmScreen } from './screens/ConfirmScreen';
 import { AccountScreen } from './screens/AccountScreen';
 import { ClinicScreen } from './screens/ClinicScreen';
+import { PricesScreen } from './screens/PricesScreen';
+import { NewsScreen } from './screens/NewsScreen';
+import { PromotionsScreen } from './screens/PromotionsScreen';
 import { OnboardingScreen } from './screens/OnboardingScreen';
 import { toast } from './lib/ui';
 
@@ -18,9 +21,9 @@ const ONB_KEY = 'zem_onboarded';
 
 export type Screen =
   | 'home' | 'departments' | 'department' | 'doctors' | 'doctor'
-  | 'booking' | 'confirm' | 'account' | 'clinic';
+  | 'booking' | 'confirm' | 'account' | 'clinic' | 'prices' | 'news' | 'promotions';
 
-const NAV_SCREENS: Screen[] = ['home', 'departments', 'doctors', 'account'];
+const TAB_SCREENS: Screen[] = ['home', 'departments', 'doctors', 'account'];
 
 function navigate(setter: () => void) {
   const d = document as Document & { startViewTransition?: (cb: () => void) => unknown };
@@ -31,13 +34,14 @@ function navigate(setter: () => void) {
 function initialScreen(): Screen {
   if (typeof window === 'undefined') return 'home';
   const s = new URLSearchParams(window.location.search).get('screen') as Screen | null;
-  const valid: Screen[] = ['home','departments','department','doctors','doctor','booking','account','clinic'];
+  const valid: Screen[] = ['home', 'departments', 'department', 'doctors', 'doctor', 'booking', 'account', 'clinic', 'prices', 'news', 'promotions'];
   return s && valid.includes(s) ? s : 'home';
 }
 
 export function App() {
   const [screen, setScreenRaw] = useState<Screen>(initialScreen);
   const [deptId, setDeptId] = useState<string>('cardio');
+  const [deptGroup, setDeptGroup] = useState<string>('all');
   const [doctorId, setDoctorId] = useState<string>('morozova-n');
   const [prefill, setPrefill] = useState<{ deptId?: string; doctorId?: string }>({});
   const [result, setResult] = useState<BookingResult | null>(null);
@@ -57,7 +61,7 @@ export function App() {
       const el = e.target as HTMLElement | null;
       if (!el || !el.classList?.contains('screen')) return;
       const dist = el.scrollHeight - el.scrollTop - el.clientHeight;
-      const near = dist < 150;
+      const near = dist < 120;
       const b = document.body;
       if (near && !b.hasAttribute('data-near-bottom')) b.setAttribute('data-near-bottom', '');
       else if (!near && b.hasAttribute('data-near-bottom')) b.removeAttribute('data-near-bottom');
@@ -69,6 +73,7 @@ export function App() {
   const openDept = (id: string) => { setDeptId(id); setScreen('department'); };
   const openDoctor = (id: string) => { setDoctorId(id); setScreen('doctor'); };
   const openBooking = (p: { deptId?: string; doctorId?: string } = {}) => { setPrefill(p); setScreen('booking'); };
+  const openDepartments = (group = 'all') => { setDeptGroup(group); setScreen('departments'); };
 
   const toggleFav = (id: string) => setFavorites((prev) => {
     const n = new Set(prev);
@@ -93,18 +98,17 @@ export function App() {
     );
   }
 
-  const navCurrent: Screen = NAV_SCREENS.includes(screen) ? screen
-    : screen === 'department' || screen === 'clinic' ? 'departments'
-    : screen === 'doctor' ? 'doctors' : 'home';
+  const isTab = TAB_SCREENS.includes(screen);
+  const navCurrent: Screen = isTab ? screen : 'home';
 
   return (
     <div className="app">
       {screen === 'home' && (
         <HomeScreen onBook={() => openBooking()} onOpenDept={openDept} onDoctors={() => setScreen('doctors')}
-          onDepartments={() => setScreen('departments')} onOpenDoctor={openDoctor} onClinic={() => setScreen('clinic')} />
+          onDepartments={() => openDepartments()} onOpenDoctor={openDoctor} onClinic={() => setScreen('clinic')} />
       )}
       {screen === 'departments' && (
-        <DepartmentsScreen onOpenDept={openDept} favorites={favorites} onToggleFav={toggleFav} />
+        <DepartmentsScreen onOpenDept={openDept} favorites={favorites} onToggleFav={toggleFav} initialGroup={deptGroup} />
       )}
       {screen === 'department' && (
         <DepartmentScreen deptId={deptId} onBack={() => setScreen('departments')} onBook={openBooking}
@@ -124,18 +128,32 @@ export function App() {
         <ConfirmScreen result={result} onHome={() => setScreen('home')} onAccount={() => setScreen('account')} />
       )}
       {screen === 'account' && (
-        <AccountScreen userName={userName} onBook={() => openBooking()} onClinic={() => setScreen('clinic')}
-          onDoctors={() => setScreen('doctors')} onDepartments={() => setScreen('departments')} />
+        <AccountScreen userName={userName} onSetName={setUserName} favCount={favorites.size}
+          onBook={() => openBooking()} onClinic={() => setScreen('clinic')} onDoctors={() => setScreen('doctors')}
+          onDepartments={() => openDepartments()} onFavorites={() => openDepartments('fav')}
+          onPrices={() => setScreen('prices')} onNews={() => setScreen('news')} onPromotions={() => setScreen('promotions')} />
       )}
       {screen === 'clinic' && (
         <ClinicScreen onBack={() => setScreen('home')} onBook={() => openBooking()} />
       )}
+      {screen === 'prices' && (
+        <PricesScreen onBack={() => setScreen('account')} onBook={openBooking} />
+      )}
+      {screen === 'news' && (
+        <NewsScreen onBack={() => setScreen('account')} onBook={() => openBooking()} />
+      )}
+      {screen === 'promotions' && (
+        <PromotionsScreen onBack={() => setScreen('account')} onBook={(p) => openBooking(p)} onOpenDoctor={openDoctor} />
+      )}
 
-      <div className="nav-veil" aria-hidden />
-      <BottomNav current={navCurrent} onChange={(s) => (s === 'booking' ? openBooking() : setScreen(s))} />
-
-      <DrZem onBook={(d) => openBooking(d ? { deptId: d } : {})} onOpenDept={openDept}
-        onDoctors={() => setScreen('doctors')} onClinic={() => setScreen('clinic')} />
+      {isTab && (
+        <>
+          <div className="nav-veil" aria-hidden />
+          <BottomNav current={navCurrent} onChange={(s) => (s === 'booking' ? openBooking() : setScreen(s))} />
+          <DrZem onBook={(d) => openBooking(d ? { deptId: d } : {})} onOpenDept={openDept} onOpenDoctor={openDoctor}
+            onDoctors={() => setScreen('doctors')} onClinic={() => setScreen('clinic')} />
+        </>
+      )}
 
       <SheetHost />
       <LightboxHost />
