@@ -1095,3 +1095,25 @@ p, .hero-sub, .lead, .review-text, .muted { text-wrap: pretty; }
 
 /* Разделительные линии тоньше и мягче */
 .summary-row, .svc-item, .menu-item, .contact-item, .acc-item { border-color: var(--border-2); }
+
+/* ════════════════════════════════════════════════════════
+   ROCH-STAGGER · вход контента лесенкой (все экраны)
+   ════════════════════════════════════════════════════════ */
+.wrap-gap > *, .dept-grid > *, .doc-grid > *, .list-card {
+  animation: reveal 0.5s var(--ease-out) both;
+}
+.wrap-gap > *:nth-child(1), .dept-grid > *:nth-child(1) { animation-delay: 0.02s; }
+.wrap-gap > *:nth-child(2), .dept-grid > *:nth-child(2) { animation-delay: 0.06s; }
+.wrap-gap > *:nth-child(3), .dept-grid > *:nth-child(3) { animation-delay: 0.10s; }
+.wrap-gap > *:nth-child(4), .dept-grid > *:nth-child(4) { animation-delay: 0.14s; }
+.wrap-gap > *:nth-child(5), .dept-grid > *:nth-child(5) { animation-delay: 0.18s; }
+.wrap-gap > *:nth-child(6), .dept-grid > *:nth-child(6) { animation-delay: 0.22s; }
+.wrap-gap > *:nth-child(7), .dept-grid > *:nth-child(7) { animation-delay: 0.26s; }
+.wrap-gap > *:nth-child(n+8), .dept-grid > *:nth-child(n+8) { animation-delay: 0.30s; }
+
+/* nice empty state */
+.empty-state { text-align: center; padding: 40px 24px; }
+.empty-ic { width: 72px; height: 72px; border-radius: 24px; margin: 0 auto 16px; display: grid; place-items: center;
+  background: linear-gradient(155deg, var(--brand-soft), #fff); color: var(--brand); box-shadow: var(--shadow-card); }
+.empty-state h3 { font-size: 17px; margin-bottom: 6px; }
+.empty-state p { font-size: 13.5px; color: var(--text-hint); line-height: 1.5; max-width: 28ch; margin: 0 auto; }

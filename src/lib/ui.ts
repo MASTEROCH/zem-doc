@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import { haptic } from './haptics';
 
 export type SheetContent = {
   title: string;
@@ -20,6 +21,7 @@ let lightbox: LightboxContent = null;
 let idCounter = 0;
 
 export function toast(text: string, kind: ToastEntry['kind'] = 'info') {
+  haptic(kind === 'success' ? 'success' : 'light');
   const id = ++idCounter;
   toasts = [...toasts, { id, text, kind }];
   toastListeners.forEach((l) => l(toasts));

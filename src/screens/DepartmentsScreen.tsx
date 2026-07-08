@@ -65,9 +65,21 @@ export function DepartmentsScreen({
       </div>
 
       {list.length === 0 && (
-        <div className="center faint" style={{ padding: 40, fontSize: 14 }}>
-          <Icon name="search" size={32} style={{ opacity: 0.4, marginBottom: 8 }} />
-          <div>Ничего не найдено</div>
+        <div className="empty-state">
+          <div className="empty-ic">
+            <Icon name={group === 'fav' ? 'heart' : 'search'} size={32} />
+          </div>
+          {group === 'fav' ? (
+            <>
+              <h3>В избранном пока пусто</h3>
+              <p>Нажимайте ♥ на карточке направления, чтобы сохранить его и быстро вернуться.</p>
+            </>
+          ) : (
+            <>
+              <h3>Ничего не найдено</h3>
+              <p>Попробуйте изменить запрос или выбрать другую категорию.</p>
+            </>
+          )}
         </div>
       )}
     </div>

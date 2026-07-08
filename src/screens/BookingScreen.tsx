@@ -7,7 +7,7 @@ import { doctors, doctorsByDept, findDoctor } from '../data/doctors';
 import { toast } from '../lib/ui';
 
 export type BookingResult = {
-  deptTitle: string; doctorName: string; dateLabel: string; time: string; price: number; name: string;
+  deptTitle: string; doctorName: string; dateLabel: string; dateKey: string; time: string; price: number; name: string;
 };
 
 const TIME_GROUPS = [
@@ -75,7 +75,7 @@ export function BookingScreen({
     if (step === 0) setStep(1);
     else onConfirm({
       deptTitle: dept?.title ?? 'Приём', doctorName: doctor?.name ?? 'Любой свободный врач',
-      dateLabel: selectedDay?.label ?? '', time, price, name,
+      dateLabel: selectedDay?.label ?? '', dateKey: dayKey, time, price, name,
     });
   }
 

@@ -57,9 +57,10 @@ export function DoctorsScreen({
       </div>
 
       {list.length === 0 && (
-        <div className="center faint" style={{ padding: 40, fontSize: 14 }}>
-          <Icon name="search" size={32} style={{ opacity: 0.4, marginBottom: 8 }} />
-          <div>Врачи не найдены</div>
+        <div className="empty-state">
+          <div className="empty-ic"><Icon name="search" size={32} /></div>
+          <h3>Врачи не найдены</h3>
+          <p>Попробуйте изменить запрос или выбрать другую специальность.</p>
         </div>
       )}
     </div>
