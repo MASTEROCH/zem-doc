@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { closeSheet, closeLightbox, useLightbox, useSheet, useToasts } from '../lib/ui';
+import { Icon } from './Icon';
 
 export function LightboxHost() {
   const lb = useLightbox();
@@ -26,6 +27,7 @@ export function ToastHost() {
     <div className="toast-host" role="status" aria-live="polite">
       {items.map((t) => (
         <div key={t.id} className={`toast toast-${t.kind ?? 'info'}`}>
+          <span className="toast-ic"><Icon name={t.kind === 'success' ? 'check' : 'info'} size={15} strokeWidth={2.6} /></span>
           <span>{t.text}</span>
         </div>
       ))}
@@ -35,18 +37,48 @@ export function ToastHost() {
 
 export function SheetHost() {
   const s = useSheet();
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const drag = useRef<{ y0: number; dy: number; active: boolean }>({ y0: 0, dy: 0, active: false });
+  const [dy, setDy] = useState(0);
+
   useEffect(() => {
     if (s) {
+      setDy(0);
       document.body.setAttribute('data-sheet-open', '');
       return () => document.body.removeAttribute('data-sheet-open');
     }
   }, [s]);
+
+  function onDown(e: React.PointerEvent) {
+    drag.current = { y0: e.clientY, dy: 0, active: true };
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  }
+  function onMove(e: React.PointerEvent) {
+    if (!drag.current.active) return;
+    const d = Math.max(0, e.clientY - drag.current.y0);
+    drag.current.dy = d;
+    setDy(d);
+  }
+  function onUp() {
+    if (!drag.current.active) return;
+    drag.current.active = false;
+    if (drag.current.dy > 110) closeSheet();
+    else setDy(0);
+  }
+
   if (!s) return null;
   return (
     <>
-      <div className="sheet-overlay" onClick={closeSheet} />
-      <div className="sheet sheet-host" role="dialog" aria-modal="true">
-        <div className="sheet-handle" onClick={closeSheet} />
+      <div className="sheet-overlay" style={{ opacity: Math.max(0, 1 - dy / 400) }} onClick={closeSheet} />
+      <div
+        ref={sheetRef}
+        className="sheet sheet-host"
+        role="dialog" aria-modal="true"
+        style={{ transform: dy ? `translate(-50%, ${dy}px)` : undefined, transition: drag.current.active ? 'none' : undefined }}
+      >
+        <div className="sheet-handle-hit" onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
+          <div className="sheet-handle" />
+        </div>
         <h3>{s.title}</h3>
         {s.subtitle && <div className="faint" style={{ fontSize: 12, marginBottom: 6 }}>{s.subtitle}</div>}
         <div style={{ marginTop: 12 }}>{s.body}</div>

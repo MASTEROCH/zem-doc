@@ -1117,3 +1117,20 @@ p, .hero-sub, .lead, .review-text, .muted { text-wrap: pretty; }
   background: linear-gradient(155deg, var(--brand-soft), #fff); color: var(--brand); box-shadow: var(--shadow-card); }
 .empty-state h3 { font-size: 17px; margin-bottom: 6px; }
 .empty-state p { font-size: 13.5px; color: var(--text-hint); line-height: 1.5; max-width: 28ch; margin: 0 auto; }
+
+/* ════════════════════════════════════════════════════════
+   ROCH-POLISH-V4 · toast-icons · swipe-sheet · skeleton
+   ════════════════════════════════════════════════════════ */
+.toast { display: flex; align-items: center; gap: 10px; }
+.toast-ic { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,0.24); flex: none; }
+
+.sheet { transition: transform 0.32s var(--ease-out); }
+.sheet-handle-hit { padding: 4px 0 8px; margin: -6px -20px 6px; cursor: grab; touch-action: none; display: grid; place-items: center; }
+.sheet-handle-hit:active { cursor: grabbing; }
+
+/* skeleton shimmer for photos while loading */
+.doc-photo.img-fade:not(.loaded) {
+  background-image: linear-gradient(100deg, var(--surface-3) 28%, rgba(255,255,255,0.7) 48%, var(--surface-3) 68%);
+  background-size: 220% 100%; animation: shimmer-bg 1.25s linear infinite;
+}
+@keyframes shimmer-bg { to { background-position: -220% 0; } }
