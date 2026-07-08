@@ -24,7 +24,7 @@ export function BottomNav({ current, onChange }: { current: Screen; onChange: (s
     if (el && nav) {
       const nr = nav.getBoundingClientRect();
       const er = el.getBoundingClientRect();
-      setInd({ x: er.left - nr.left + (er.width - 26) / 2, w: 26 });
+      setInd({ x: er.left - nr.left + (er.width - 56) / 2, w: 56 });
     } else {
       setInd(null); // active screen is not a nav tab (booking) — hide indicator
     }

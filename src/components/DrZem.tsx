@@ -17,7 +17,9 @@ export type Emotion = 'idle' | 'hi' | 'think' | 'talk' | 'love' | 'wink';
 export function ZemFace({ emotion = 'idle' }: { emotion?: Emotion }) {
   return (
     <div className={`zem-head emo-${emotion}`}>
-      <div className="zem-specular" />
+      <div className="zem-orb-grad" />
+      <div className="zem-orb-shade" />
+      <div className="zem-orb-gloss" />
       <svg className="zem-svg" viewBox="0 0 100 100" fill="none" aria-hidden="true">
         <path className="zem-inhead-spark" d="M20 24l1.2 3.2L24.5 28l-3.3 1.2L20 32l-1.2-3.2L15.5 28l3.3-1.2L20 24z" fill="#BE9E6F" style={{ animationDelay: '0.2s' }} />
         <path className="zem-inhead-spark" d="M82 30l.8 2.2L85 33l-2.2.8L82 36l-.8-2.2L79 33l2.2-.8L82 30z" fill="#1C8FD6" style={{ animationDelay: '1s' }} />

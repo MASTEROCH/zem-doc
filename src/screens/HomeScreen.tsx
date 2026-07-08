@@ -8,6 +8,7 @@ import { advantages, reviews, promos, ratingSources, type Promo } from '../data/
 import { rub } from '../data/departments';
 import { toast, openSheet, closeSheet } from '../lib/ui';
 import { openZem } from '../lib/zem';
+import { ZemFace } from '../components/DrZem';
 import { CountUpInt } from '../lib/useCountUp';
 import { useAutoScroll } from '../lib/useAutoScroll';
 
@@ -27,9 +28,11 @@ export function HomeScreen({
   const popular = departments.filter((d) => d.popular);
   const topDoctors = [...doctors].sort((a, b) => b.rating - a.rating).slice(0, 8);
 
+  const deptRef = useRef<HTMLDivElement>(null);
   const promoRef = useRef<HTMLDivElement>(null);
   const docRef = useRef<HTMLDivElement>(null);
   const revRef = useRef<HTMLDivElement>(null);
+  useAutoScroll(deptRef, 0.30);
   useAutoScroll(promoRef, 0.32);
   useAutoScroll(docRef, 0.28);
   useAutoScroll(revRef, 0.3);
@@ -134,7 +137,7 @@ export function HomeScreen({
       {/* dr.Zem entry strip */}
       <div className="section" style={{ marginTop: 20 }}>
         <button className="card card-pad row" style={{ width: '100%', gap: 12, textAlign: 'left', background: 'linear-gradient(120deg, #fff, var(--brand-soft))' }} onClick={() => openZem()}>
-          <span style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(155deg,var(--brand-bright),var(--brand-deep))', color: '#fff', display: 'grid', placeItems: 'center', flex: 'none' }}><Icon name="sparkle-ai" size={24} /></span>
+          <span className="zem-inline"><ZemFace emotion="hi" /></span>
           <div className="grow">
             <div style={{ fontWeight: 800, fontSize: 15 }}>Спросите dr.Zem</div>
             <div className="faint" style={{ fontSize: 12.5 }}>ИИ-приёмная: подберёт врача, ответит на вопросы</div>
@@ -150,8 +153,8 @@ export function HomeScreen({
           <button className="section-link" onClick={onDepartments}>Все 16 <Icon name="chevron-right" size={14} /></button>
         </div>
       </div>
-      <div className="dept-scroll edge-fade">
-        {popular.map((d) => <DeptCard key={d.id} dept={d} onClick={() => onOpenDept(d.id)} />)}
+      <div className="dept-scroll edge-fade auto-scroll" ref={deptRef}>
+        {[...popular, ...popular].map((d, i) => <DeptCard key={d.id + '-' + i} dept={d} onClick={() => onOpenDept(d.id)} />)}
       </div>
 
       {/* PROMOS — auto-marquee */}
@@ -171,7 +174,7 @@ export function HomeScreen({
         </div>
       </div>
       <div className="doc-hscroll edge-fade auto-scroll" ref={docRef}>
-        {topDoctors.map((d) => <DoctorMini key={d.id} doc={d} onClick={() => onOpenDoctor(d.id)} />)}
+        {[...topDoctors, ...topDoctors].map((d, i) => <DoctorMini key={d.id + '-' + i} doc={d} onClick={() => onOpenDoctor(d.id)} />)}
       </div>
 
       {/* ADVANTAGES */}
@@ -212,8 +215,8 @@ export function HomeScreen({
         <div className="section-head"><div className="section-title">Отзывы <span className="serif">пациентов</span></div></div>
       </div>
       <div className="review-scroll edge-fade auto-scroll" ref={revRef}>
-        {reviews.map((r) => (
-          <div className="review-card" key={r.id}>
+        {[...reviews, ...reviews].map((r, ri) => (
+          <div className="review-card" key={r.id + '-' + ri}>
             <div className="review-top">
               <div><div className="review-who">{r.name}</div><div className="review-dept">{r.dept}</div></div>
               <span className="stars">{Array.from({ length: r.rating }).map((_, i) => <Icon key={i} name="star" size={13} fill="current" />)}</span>

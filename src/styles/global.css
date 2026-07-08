@@ -730,11 +730,15 @@ body[data-near-bottom] .zem-fab { transform: translateY(30px) scale(0.85); opaci
 /* ── Bottom-nav sliding glass indicator ────────────────── */
 .bottom-nav { position: fixed; }
 .nav-indicator {
-  position: absolute; left: 0; top: 6px; height: 4px; border-radius: 4px; z-index: 2;
-  background: linear-gradient(90deg, var(--brand), var(--brand-bright));
-  box-shadow: 0 2px 10px rgba(14,107,168,0.55);
-  transition: transform 0.42s var(--ease-spring), width 0.3s var(--ease-out), opacity 0.2s;
+  position: absolute; left: 0; top: 9px; height: 46px; border-radius: 16px; z-index: 0;
+  background: radial-gradient(64% 78% at 50% 45%, rgba(14,107,168,0.26), rgba(14,107,168,0.08) 62%, transparent 78%);
+  filter: blur(5px);
+  transition: transform 0.44s var(--ease-spring), width 0.34s var(--ease-out), opacity 0.25s;
   pointer-events: none;
+}
+.nav-indicator::after {
+  content: ''; position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%);
+  width: 20px; height: 3px; border-radius: 3px; background: var(--brand); box-shadow: 0 1px 6px rgba(14,107,168,0.6); filter: none;
 }
 .nav-item { position: relative; z-index: 1; }
 .nav-item .nav-icon { transition: transform 0.4s var(--ease-spring); }
@@ -846,7 +850,7 @@ body[data-near-bottom] .zem-fab { transform: translateY(30px) scale(0.85); opaci
   opacity: 0.7; z-index: 0;
 }
 .sheet, .zem-chat { position: fixed; }
-.bottom-nav > * { position: relative; z-index: 1; }
+.bottom-nav > .nav-item, .bottom-nav > .nav-fab-slot { position: relative; z-index: 1; }
 /* outline-btn on hero → glass */
 .hero-card .btn-outline {
   -webkit-backdrop-filter: blur(10px) saturate(160%); backdrop-filter: blur(10px) saturate(160%);
@@ -890,3 +894,120 @@ body[data-near-bottom] .zem-fab { transform: scale(0.9); opacity: 0.96; pointer-
 
 /* ── Booking: cleaner spacing so CTA never overlaps ─────── */
 .book-scroll-pad { height: 96px; }
+
+/* ════════════════════════════════════════════════════════
+   ROCH-MASCOT-V3 · глянцевый стеклянный орб + живой градиент
+   ════════════════════════════════════════════════════════ */
+.zem-head {
+  position: relative; width: 58px; height: 58px; border-radius: 50%; overflow: hidden;
+  background: radial-gradient(120% 120% at 30% 22%, #ffffff 0%, #eef4fb 46%, #d7e4f1 100%);
+  border: 1px solid rgba(255,255,255,0.9);
+  box-shadow:
+    inset 0 3px 7px rgba(255,255,255,0.95),
+    inset 0 -9px 16px rgba(14,107,168,0.18),
+    inset 0 0 0 1px rgba(255,255,255,0.55),
+    0 12px 24px -8px rgba(14,107,168,0.5);
+  animation: zem-breathe 3.6s var(--ease-out) infinite;
+}
+.zem-orb-grad {
+  position: absolute; left: -25%; top: -25%; width: 150%; height: 150%; border-radius: 50%;
+  background:
+    radial-gradient(closest-side at 30% 66%, rgba(28,143,214,0.9), transparent 66%),
+    radial-gradient(closest-side at 72% 40%, rgba(18,164,164,0.85), transparent 64%),
+    radial-gradient(closest-side at 58% 82%, rgba(190,158,111,0.75), transparent 66%),
+    radial-gradient(closest-side at 42% 40%, rgba(122,92,255,0.35), transparent 60%);
+  filter: blur(6px) saturate(135%); opacity: 0.52;
+  animation: zem-swirl 9s linear infinite;
+}
+@keyframes zem-swirl { to { transform: rotate(360deg) scale(1.04); } }
+.zem-orb-shade { position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(120% 96% at 50% 120%, rgba(8,45,88,0.30), transparent 58%); }
+.zem-orb-gloss { position: absolute; top: 6px; left: 10px; width: 22px; height: 13px; border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.05)); filter: blur(1px); transform: rotate(-20deg); pointer-events: none; }
+.zem-svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
+
+/* colorful soft aura behind orb */
+.zem-aura {
+  background: conic-gradient(from 0deg, var(--teal), var(--brand-bright), #7a5cff, var(--gold-bright), var(--teal));
+  filter: blur(11px); opacity: 0.5;
+}
+
+/* smaller head inside chat header */
+.zem-chat-ava { width: 42px; height: 42px; }
+.zem-chat-ava .zem-head { width: 40px; height: 40px; animation-duration: 4s; }
+
+/* inline mascot head (home entry card) */
+.zem-inline { display: grid; place-items: center; width: 46px; height: 46px; flex: none; position: relative; }
+.zem-inline .zem-head { width: 46px; height: 46px; }
+
+/* ════════════════════════════════════════════════════════
+   ROCH-LIQUID-GLASS-V2 · Apple-grade material pass 2026-07-08
+   living ambient · specular light-catch · frosted floats
+   ════════════════════════════════════════════════════════ */
+
+/* — Living ambient background (subtle drift) — */
+.app::before { animation: amb-drift 26s ease-in-out infinite alternate; }
+@keyframes amb-drift { from { transform: translate(0,0) scale(1); } to { transform: translate(14px,-16px) scale(1.07); } }
+.app::after {
+  content: ''; position: fixed; inset: 0; max-width: var(--max-w); margin: 0 auto; z-index: var(--z-ambient);
+  pointer-events: none; opacity: 0.6;
+  background: radial-gradient(closest-side, rgba(18,164,164,0.10), transparent) 106% 40% / 46% 40% no-repeat;
+  animation: amb-drift2 30s ease-in-out infinite alternate;
+}
+@keyframes amb-drift2 { from { transform: translate(0,0); } to { transform: translate(-18px,22px); } }
+
+/* — Specular light-catch on all surfaces (the light-theme glass tell) — */
+.card, .list-card, .dept-card, .quick, .stat, .doc-card, .review-card, .appt-card, .promo-card, .info-card, .zem-suggest, .zem-doc-sg {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), var(--shadow-card);
+}
+.mcard, .hero-card, .cta-banner { box-shadow: inset 0 1px 0 rgba(255,255,255,0.16), var(--shadow-pop); }
+
+/* soft top sheen sweeping across hero */
+.hero-card { position: relative; overflow: hidden; }
+.hero-card > * { position: relative; z-index: 1; }
+.hero-card .spec, .mcard .spec { display: none; }
+
+/* — Frosted floating surfaces (real refraction over content) — */
+.app-header {
+  -webkit-backdrop-filter: blur(26px) saturate(185%); backdrop-filter: blur(26px) saturate(185%);
+  background: rgba(244,247,251,0.66);
+  border-bottom: 1px solid rgba(255,255,255,0.55);
+}
+.topbar {
+  -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(244,247,251,0.62);
+}
+
+/* — Chips & inputs get subtle glass — */
+.chip { box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), var(--shadow-xs); }
+.chip.active { box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), var(--shadow-raise); }
+.input { box-shadow: inset 0 1px 2px rgba(16,42,74,0.045); }
+.segmented { box-shadow: inset 0 1px 2px rgba(16,42,74,0.05); }
+
+/* — icon buttons / back / fav get glassier — */
+.icon-btn, .back-btn {
+  background: rgba(255,255,255,0.72);
+  -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), var(--shadow-xs);
+}
+
+/* — Tactile press: gentle lift/scale with spring — */
+.card, .dept-card, .doc-card, .quick, .review-card, .promo-card, .menu-item, .contact-item, .pick, .zem-suggest, .zem-doc-sg {
+  transition: transform 0.5s var(--ease-spring), box-shadow 0.3s var(--ease-out);
+}
+.card:active, .dept-card:active, .doc-card:active, .quick:active, .review-card:active, .promo-card:active, .pick:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+/* — nav FAB: liquid-glass sheen — */
+.nav-fab { position: relative; overflow: hidden; }
+.nav-fab::after {
+  content: ''; position: absolute; top: 4px; left: 8px; right: 8px; height: 40%; border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.5), transparent); pointer-events: none;
+}
+
+/* — sheet handle + sheet material — */
+.sheet { -webkit-backdrop-filter: blur(30px) saturate(160%); backdrop-filter: blur(30px) saturate(160%); background: rgba(255,255,255,0.9); }
+
+/* — quick-ic tiles get a tiny inner glow — */
+.quick-ic { box-shadow: inset 0 1px 0 rgba(255,255,255,0.8); }

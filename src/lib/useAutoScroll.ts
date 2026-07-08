@@ -1,9 +1,10 @@
 import { useEffect, type RefObject } from 'react';
 
 /**
- * Медленная авто-прокрутка горизонтального блока («бегущая строка» для превью).
- * Ручной скролл/касание — приоритет: пауза на взаимодействии, авто-возобновление.
- * Уважает prefers-reduced-motion (не запускается).
+ * Непрерывный плавный дрейф горизонтального блока («лёгкое движение» превью).
+ * Контент дублируется 2× → бесшовный wrap на половине ширины.
+ * Ручной скролл/касание в приоритете: пауза на взаимодействии + авто-возобновление.
+ * Уважает prefers-reduced-motion.
  */
 export function useAutoScroll(ref: RefObject<HTMLElement | null>, speed = 0.35) {
   useEffect(() => {
@@ -15,16 +16,14 @@ export function useAutoScroll(ref: RefObject<HTMLElement | null>, speed = 0.35) 
     let raf = 0;
     let paused = false;
     let resumeAt = 0;
-    let dir = 1;
 
-    const pause = () => { paused = true; resumeAt = performance.now() + 2600; };
+    const pause = () => { paused = true; resumeAt = performance.now() + 2400; };
     const tick = (t: number) => {
-      const max = el.scrollWidth - el.clientWidth;
-      if (max > 4 && (!paused || t > resumeAt)) {
+      const half = el.scrollWidth / 2;           // контент продублирован → половина = один цикл
+      if (half > 4 && (!paused || t > resumeAt)) {
         paused = false;
-        el.scrollLeft += speed * dir;
-        if (el.scrollLeft >= max - 0.5) dir = -1;
-        else if (el.scrollLeft <= 0.5) dir = 1;
+        el.scrollLeft += speed;
+        if (el.scrollLeft >= half) el.scrollLeft -= half;   // бесшовный возврат
       }
       raf = requestAnimationFrame(tick);
     };
