@@ -1200,6 +1200,7 @@ p, .hero-sub, .lead, .review-text, .muted { text-wrap: pretty; }
 }
 [data-theme="dark"] .app-header { background: rgba(10,20,32,0.6); border-bottom-color: rgba(255,255,255,0.06); }
 [data-theme="dark"] .topbar { background: rgba(10,20,32,0.6); }
+[data-theme="dark"] .nav-veil { background: linear-gradient(180deg, transparent, rgba(9,17,28,0.88) 55%, var(--bg-app)); }
 [data-theme="dark"] .bottom-nav { background: rgba(19,31,46,0.82); border-color: rgba(255,255,255,0.12); }
 [data-theme="dark"] .bottom-nav::before, [data-theme="dark"] .sheet::before, [data-theme="dark"] .zem-chat::before { background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent 40%); }
 [data-theme="dark"] .sheet { background: rgba(19,31,46,0.96); }
@@ -1298,3 +1299,79 @@ b, strong { font-weight: 700; }
 .hero-cta > .btn { flex: 1 1 0; min-width: 0; padding-inline: 12px; }
 .hero-mini-stats { justify-content: space-between; gap: 10px; }
 .hero-mini-stats > div { flex: 1; }
+
+/* ════════════════════════════════════════════════════════
+   WOW-MOTION-V5 · 2026-07-09
+   scroll-reveal · tactile press · gold shine · serif shimmer
+   ════════════════════════════════════════════════════════ */
+
+/* ── Scroll-reveal (Apple/Linear): блоки поднимаются при прокрутке ── */
+.rv-on .rv {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.62s var(--ease-out), transform 0.62s var(--ease-out);
+  will-change: opacity, transform;
+}
+.rv-on .rv.rv-in { opacity: 1; transform: none; }
+.rv-on .rv.rv-noanim { transition: none !important; }
+
+/* ── Universal tactile press: всё кликабельное «отвечает» ── */
+.menu-item, .contact-item, .list-card > button {
+  transition: transform var(--duration-fast) var(--ease-out), background var(--duration-fast);
+}
+.menu-item:active, .contact-item:active, .list-card > button:active { transform: scale(0.985); }
+.menu-item:active, .contact-item:active { background: var(--surface-3); }
+
+/* ── Gold shine sweep — периодический блик на крупных CTA ── */
+.btn-lg.btn-primary, .cta-banner { position: relative; overflow: hidden; }
+.btn-lg.btn-primary::after, .cta-banner::before {
+  content: ''; position: absolute; top: -20%; bottom: -20%; left: -80%; width: 55%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.55), transparent);
+  transform: skewX(-16deg); pointer-events: none; z-index: 1;
+  animation: cta-shine 5.6s var(--ease-out) 1.6s infinite;
+}
+.cta-banner::before { background: linear-gradient(100deg, transparent, rgba(255,255,255,0.28), transparent); }
+@keyframes cta-shine { 0%, 74% { left: -80%; } 93%, 100% { left: 165%; } }
+.btn-lg.btn-primary:active::after { animation-play-state: paused; }
+.cta-banner > * { position: relative; z-index: 2; }
+
+/* ── Serif gold words — живой градиентный shimmer ── */
+.section-title .serif, .hero-title .serif {
+  background: linear-gradient(100deg, var(--gold-deep) 0%, var(--gold-bright) 34%, #F6E9C8 50%, var(--gold-bright) 66%, var(--gold-deep) 100%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: serif-shimmer 6.5s linear infinite;
+}
+@keyframes serif-shimmer { to { background-position: -260% 0; } }
+
+/* ── Nav active icon — приподнять и слегка увеличить ── */
+.nav-item.active .nav-icon { transform: translateY(-2px) scale(1.05); }
+
+/* ── Card hover lift (десктоп / pointer-устройства) ── */
+@media (hover: hover) and (pointer: fine) {
+  .dept-card:hover, .doc-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-pop); }
+  .menu-item:hover, .contact-item:hover { background: var(--surface-3); }
+  .btn-lg.btn-primary:hover { filter: brightness(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-lg.btn-primary::after, .cta-banner::before { animation: none !important; opacity: 0; }
+  .section-title .serif, .hero-title .serif { animation: none !important; -webkit-text-fill-color: currentColor; background: none; }
+}
+
+/* ── dr.Zem единый CTA-блок (маскот + вопрос + кнопка) ── */
+.zem-cta { padding-right: 92px; }
+.zem-cta-head { position: absolute; top: 16px; right: 14px; width: 66px; height: 66px; z-index: 3;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.32)); animation: zem-cta-float 4.5s ease-in-out infinite; }
+.zem-cta-head .zem-head { width: 66px; height: 66px; }
+@keyframes zem-cta-float { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-5px) rotate(-2deg); } }
+.zem-cta-tag { display: inline-flex; align-items: center; gap: 5px; position: relative; z-index: 2;
+  font-size: 11px; font-weight: 800; letter-spacing: 0.02em; color: var(--gold-bright);
+  background: rgba(190,158,111,0.16); border: 1px solid rgba(190,158,111,0.32);
+  padding: 4px 10px; border-radius: 999px; margin-bottom: 10px; }
+.zem-cta h3 { margin-top: 2px; }
+
+/* ── Nav-item иконки в тёмной теме — ярче и заметнее ── */
+[data-theme="dark"] .nav-item { color: rgba(226,236,247,0.62); }
+[data-theme="dark"] .nav-item.active { color: var(--brand-bright); }
+[data-theme="dark"] .nav-label { color: inherit; }

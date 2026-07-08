@@ -134,18 +134,6 @@ export function HomeScreen({
         ))}
       </div>
 
-      {/* dr.Zem entry strip */}
-      <div className="section" style={{ marginTop: 20 }}>
-        <button className="card card-pad row" style={{ width: '100%', gap: 12, textAlign: 'left', background: 'var(--grad-tint-brand)' }} onClick={() => openZem()}>
-          <span className="zem-inline"><ZemFace emotion="hi" /></span>
-          <div className="grow">
-            <div style={{ fontWeight: 800, fontSize: 15 }}>Спросите dr.Zem</div>
-            <div className="faint" style={{ fontSize: 12.5 }}>ИИ-приёмная: подберёт врача, ответит на вопросы</div>
-          </div>
-          <Icon name="message" size={20} style={{ color: 'var(--brand)' }} />
-        </button>
-      </div>
-
       {/* POPULAR DEPARTMENTS */}
       <div className="section">
         <div className="section-head">
@@ -202,7 +190,7 @@ export function HomeScreen({
           <div className="row" style={{ gap: 0, marginTop: 10, justifyContent: 'space-between' }}>
             {ratingSources.map((r) => (
               <div key={r.name} className="center" style={{ flex: 1 }}>
-                <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--navy)' }}>{r.value}</div>
+                <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-primary)' }}>{r.value}</div>
                 <div className="faint" style={{ fontSize: 11 }}>{r.name}</div>
               </div>
             ))}
@@ -227,11 +215,13 @@ export function HomeScreen({
         ))}
       </div>
 
-      {/* CTA → dr.Zem */}
+      {/* CTA → dr.Zem (единый блок: маскот + вопрос + кнопка) */}
       <div className="section" style={{ marginTop: 24 }}>
-        <div className="cta-banner">
+        <div className="cta-banner zem-cta">
+          <span className="zem-cta-head" aria-hidden><ZemFace emotion="hi" /></span>
+          <span className="zem-cta-tag"><Icon name="sparkle-ai" size={12} /> ИИ-приёмная</span>
           <h3>Не знаете, к какому врачу?</h3>
-          <p>Спросите dr.Zem — ИИ-приёмная подберёт специалиста по симптомам за минуту.</p>
+          <p>dr.Zem подберёт специалиста по симптомам и ответит на вопросы за минуту.</p>
           <button className="btn btn-gold" onClick={() => openZem()}><Icon name="sparkle-ai" size={18} /> Спросить dr.Zem</button>
         </div>
       </div>

@@ -5,6 +5,7 @@ import './styles/global.css';
 import { App } from './App';
 import { installHaptics } from './lib/haptics';
 import { applyTheme } from './lib/theme';
+import { initReveal } from './lib/reveal';
 
 applyTheme();
 
@@ -19,3 +20,5 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 );
+
+initReveal();

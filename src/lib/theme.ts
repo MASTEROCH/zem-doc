@@ -4,8 +4,8 @@ export type ThemePref = 'auto' | 'light' | 'dark';
 const KEY = 'zem_theme';
 
 export function getThemePref(): ThemePref {
-  if (typeof localStorage === 'undefined') return 'auto';
-  return (localStorage.getItem(KEY) as ThemePref) || 'auto';
+  if (typeof localStorage === 'undefined') return 'light';
+  return (localStorage.getItem(KEY) as ThemePref) || 'light';
 }
 
 function resolve(pref: ThemePref): 'light' | 'dark' {
