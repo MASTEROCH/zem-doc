@@ -118,7 +118,8 @@ export function App() {
     <div className="app">
       {screen === 'home' && (
         <HomeScreen onBook={() => openBooking()} onOpenDept={openDept} onDoctors={() => setScreen('doctors')}
-          onDepartments={() => openDepartments()} onOpenDoctor={openDoctor} onClinic={() => setScreen('clinic')} onSearch={() => setScreen('search')} />
+          onDepartments={() => openDepartments()} onOpenDoctor={openDoctor} onClinic={() => setScreen('clinic')} onSearch={() => setScreen('search')}
+          onAnalyses={() => setScreen('analyses')} onAccount={() => setScreen('account')} />
       )}
       {screen === 'departments' && (
         <DepartmentsScreen onOpenDept={openDept} favorites={favorites} onToggleFav={toggleFav} initialGroup={deptGroup} />

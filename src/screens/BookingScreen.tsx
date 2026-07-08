@@ -121,7 +121,7 @@ export function BookingScreen({
 
       {/* STEP 0 — direction */}
       {step === 0 && (
-        <div className="section" style={{ marginTop: 8 }}>
+        <div className="section step-pane" style={{ marginTop: 8 }}>
           <button className="card card-pad row" style={{ width: '100%', gap: 12, marginBottom: 14, background: 'var(--grad-tint-gold)', border: '1px solid rgba(190,158,111,0.3)' }} onClick={express}>
             <span style={{ width: 42, height: 42, borderRadius: 12, background: 'linear-gradient(155deg,var(--gold-bright),var(--gold-deep))', color: '#fff', display: 'grid', placeItems: 'center', flex: 'none' }}><Icon name="bolt" size={22} /></span>
             <div className="grow" style={{ textAlign: 'left' }}>
@@ -149,7 +149,7 @@ export function BookingScreen({
 
       {/* STEP 1 — doctor */}
       {step === 1 && (
-        <div className="section" style={{ marginTop: 8 }}>
+        <div className="section step-pane" style={{ marginTop: 8 }}>
           <button className={`pick ${doctorId === '' ? 'active' : ''}`} onClick={() => pickDoctor('')}>
             <span className="pick-radio">{doctorId === '' && <Icon name="check" size={14} strokeWidth={3} />}</span>
             <span className="quick-ic navy" style={{ width: 44, height: 44 }}><Icon name="users" size={22} /></span>
@@ -170,7 +170,7 @@ export function BookingScreen({
 
       {/* STEP 2 — date */}
       {step === 2 && (
-        <div className="section" style={{ marginTop: 8 }}>
+        <div className="section step-pane" style={{ marginTop: 8 }}>
           <div className="slot-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
             {days.map((d) => (
               <button key={d.key} className={`day ${dayKey === d.key ? 'active' : ''}`} style={{ width: 'auto', height: 68, borderRadius: 16 }} onClick={() => pickDay(d.key)}>
@@ -185,7 +185,7 @@ export function BookingScreen({
 
       {/* STEP 3 — time */}
       {step === 3 && (
-        <div className="section" style={{ marginTop: 8 }}>
+        <div className="section step-pane" style={{ marginTop: 8 }}>
           <div className="wrap-gap">
             {TIME_GROUPS.map((g) => (
               <div key={g.label}>
@@ -205,7 +205,7 @@ export function BookingScreen({
 
       {/* STEP 4 — contacts */}
       {step === 4 && (
-        <div className="section" style={{ marginTop: 8 }}>
+        <div className="section step-pane" style={{ marginTop: 8 }}>
           <div className="field">
             <label className="field-label">Ваше имя *</label>
             <input className="input" placeholder="Иван Иванов" value={name} onChange={(e) => setName(e.target.value)} />

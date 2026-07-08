@@ -5,13 +5,21 @@ import { clinic } from '../data/clinic';
 import { rub } from '../data/departments';
 import { haptic } from '../lib/haptics';
 import { toast } from '../lib/ui';
+import { addAppointment } from '../lib/appointments';
 import type { BookingResult } from './BookingScreen';
 
 export function ConfirmScreen({
   result, onHome, onAccount,
 }: { result: BookingResult; onHome: () => void; onAccount: () => void }) {
   const num = useMemo(() => String(1000 + Math.floor(Math.random() * 9000)), []);
-  useEffect(() => { haptic('success'); }, []);
+  useEffect(() => {
+    haptic('success');
+    // запись попадает в Кабинет (store сам защищён от дублей)
+    addAppointment({
+      deptTitle: result.deptTitle, doctorName: result.doctorName,
+      dateKey: result.dateKey, dateLabel: result.dateLabel, time: result.time, price: result.price,
+    });
+  }, [result]);
 
   const summary = `Запись в «Земский Доктор»: ${result.deptTitle}, ${result.doctorName}, ${result.dateLabel} ${result.time}. ${clinic.addressShort}`;
 

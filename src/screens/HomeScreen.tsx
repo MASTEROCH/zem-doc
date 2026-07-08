@@ -6,8 +6,9 @@ import { departments } from '../data/departments';
 import { doctors, findDoctor } from '../data/doctors';
 import { advantages, reviews, promos, ratingSources, type Promo } from '../data/clinic';
 import { rub } from '../data/departments';
-import { toast, openSheet, closeSheet } from '../lib/ui';
+import { openSheet, closeSheet } from '../lib/ui';
 import { openZem } from '../lib/zem';
+import { openNotifications } from '../lib/notifications';
 import { ZemFace } from '../components/DrZem';
 import { CountUpInt } from '../lib/useCountUp';
 import { useAutoScroll } from '../lib/useAutoScroll';
@@ -20,10 +21,11 @@ const QUICK = [
 ] as const;
 
 export function HomeScreen({
-  onBook, onOpenDept, onDoctors, onDepartments, onOpenDoctor, onClinic, onSearch,
+  onBook, onOpenDept, onDoctors, onDepartments, onOpenDoctor, onClinic, onSearch, onAnalyses, onAccount,
 }: {
   onBook: () => void; onOpenDept: (id: string) => void; onDoctors: () => void;
   onDepartments: () => void; onOpenDoctor: (id: string) => void; onClinic: () => void; onSearch: () => void;
+  onAnalyses: () => void; onAccount: () => void;
 }) {
   const popular = departments.filter((d) => d.popular);
   const topDoctors = [...doctors].sort((a, b) => b.rating - a.rating).slice(0, 8);
@@ -40,7 +42,7 @@ export function HomeScreen({
   const quickAction = (label: string) => {
     if (label === 'Записаться') onBook();
     else if (label === 'Врачи') onDoctors();
-    else if (label === 'Анализы') onOpenDept('analyses');
+    else if (label === 'Анализы') onAnalyses();
     else window.location.href = 'tel:+74012663030';
   };
 
@@ -104,7 +106,7 @@ export function HomeScreen({
 
   return (
     <div className="screen">
-      <AppHeader onSearch={onSearch} action={{ icon: 'bell', onClick: () => toast('Уведомлений пока нет'), dot: true, label: 'Уведомления' }} />
+      <AppHeader onSearch={onSearch} action={{ icon: 'bell', onClick: () => openNotifications({ onAnalyses, onAccount }), dot: true, label: 'Уведомления' }} />
 
       {/* HERO */}
       <div className="hero reveal">

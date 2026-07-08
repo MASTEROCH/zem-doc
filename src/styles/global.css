@@ -1377,3 +1377,10 @@ b, strong { font-weight: 700; }
 [data-theme="dark"] .nav-item { color: rgba(226,236,247,0.62); }
 [data-theme="dark"] .nav-item.active { color: var(--brand-bright); }
 [data-theme="dark"] .nav-label { color: inherit; }
+
+/* ── PERFECTION-PASS V6 · живые записи / уведомления / шаги ── */
+.quick-ic.ok { background: var(--ok-soft); color: var(--ok); }
+.step-pane { animation: step-in 0.34s var(--ease-out) both; }
+@keyframes step-in { from { opacity: 0; transform: translateX(20px); } }
+.notif-item:disabled { opacity: 1; }
+.notif-item:disabled:active { transform: none; }
