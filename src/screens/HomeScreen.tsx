@@ -20,10 +20,10 @@ const QUICK = [
 ] as const;
 
 export function HomeScreen({
-  onBook, onOpenDept, onDoctors, onDepartments, onOpenDoctor, onClinic,
+  onBook, onOpenDept, onDoctors, onDepartments, onOpenDoctor, onClinic, onSearch,
 }: {
   onBook: () => void; onOpenDept: (id: string) => void; onDoctors: () => void;
-  onDepartments: () => void; onOpenDoctor: (id: string) => void; onClinic: () => void;
+  onDepartments: () => void; onOpenDoctor: (id: string) => void; onClinic: () => void; onSearch: () => void;
 }) {
   const popular = departments.filter((d) => d.popular);
   const topDoctors = [...doctors].sort((a, b) => b.rating - a.rating).slice(0, 8);
@@ -104,7 +104,7 @@ export function HomeScreen({
 
   return (
     <div className="screen">
-      <AppHeader action={{ icon: 'bell', onClick: () => toast('Уведомлений пока нет'), dot: true, label: 'Уведомления' }} />
+      <AppHeader onSearch={onSearch} action={{ icon: 'bell', onClick: () => toast('Уведомлений пока нет'), dot: true, label: 'Уведомления' }} />
 
       {/* HERO */}
       <div className="hero reveal">

@@ -1134,3 +1134,9 @@ p, .hero-sub, .lead, .review-text, .muted { text-wrap: pretty; }
   background-size: 220% 100%; animation: shimmer-bg 1.25s linear infinite;
 }
 @keyframes shimmer-bg { to { background-position: -220% 0; } }
+
+/* App first-paint fade */
+#root { animation: app-fade-in 0.45s var(--ease-out) both; }
+@keyframes app-fade-in { from { opacity: 0; } }
+/* search: input inside topbar shouldn't shrink */
+.topbar .input input { min-width: 0; }

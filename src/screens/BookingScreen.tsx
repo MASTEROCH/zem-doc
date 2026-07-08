@@ -219,7 +219,7 @@ export function BookingScreen({
 
       <div className="dock">
         <button className={`btn btn-block btn-lg ${canNext ? 'btn-primary' : 'btn-ghost'}`} onClick={next}>
-          {step === 0 ? <>Далее <Icon name="arrow-right" size={18} /></> : <><Icon name="check" size={20} strokeWidth={2.6} /> Подтвердить запись</>}
+          {step === 0 ? <>Далее{canNext ? ` · ${rub(price)}` : ''} <Icon name="arrow-right" size={18} /></> : <><Icon name="check" size={20} strokeWidth={2.6} /> Подтвердить запись</>}
         </button>
       </div>
     </div>

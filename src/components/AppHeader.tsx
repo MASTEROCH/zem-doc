@@ -4,8 +4,8 @@ import { clinic } from '../data/clinic';
 
 /** Общий заголовок с брендом «Земский Доктор» + реакция на скролл */
 export function AppHeader({
-  action, flat = false,
-}: { action?: { icon: IconName; onClick: () => void; dot?: boolean; label: string }; flat?: boolean }) {
+  action, onSearch, flat = false,
+}: { action?: { icon: IconName; onClick: () => void; dot?: boolean; label: string }; onSearch?: () => void; flat?: boolean }) {
   const ref = useRef<HTMLElement>(null);
   const [scrolled, setScrolled] = useState(false);
 
@@ -29,6 +29,7 @@ export function AppHeader({
           </div>
         </div>
         <div className="header-actions">
+          {onSearch && <button className="icon-btn" onClick={onSearch} aria-label="Поиск"><Icon name="search" size={19} /></button>}
           <a className="icon-btn" href={`tel:${clinic.phoneRaw}`} aria-label="Позвонить"><Icon name="phone" size={19} /></a>
           {action && (
             <button className="icon-btn" onClick={action.onClick} aria-label={action.label}>

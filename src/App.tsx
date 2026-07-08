@@ -14,6 +14,7 @@ import { ClinicScreen } from './screens/ClinicScreen';
 import { PricesScreen } from './screens/PricesScreen';
 import { NewsScreen } from './screens/NewsScreen';
 import { PromotionsScreen } from './screens/PromotionsScreen';
+import { SearchScreen } from './screens/SearchScreen';
 import { OnboardingScreen } from './screens/OnboardingScreen';
 import { toast } from './lib/ui';
 
@@ -21,13 +22,13 @@ const ONB_KEY = 'zem_onboarded';
 
 export type Screen =
   | 'home' | 'departments' | 'department' | 'doctors' | 'doctor'
-  | 'booking' | 'confirm' | 'account' | 'clinic' | 'prices' | 'news' | 'promotions';
+  | 'booking' | 'confirm' | 'account' | 'clinic' | 'prices' | 'news' | 'promotions' | 'search';
 
 const TAB_SCREENS: Screen[] = ['home', 'departments', 'doctors', 'account'];
 
 const DEPTH: Record<Screen, number> = {
   home: 0, departments: 0, doctors: 0, account: 0,
-  department: 1, doctor: 1, booking: 1, clinic: 1, prices: 1, news: 1, promotions: 1, confirm: 2,
+  department: 1, doctor: 1, booking: 1, clinic: 1, prices: 1, news: 1, promotions: 1, search: 1, confirm: 2,
 };
 
 function navigate(dir: 'fwd' | 'back', setter: () => void) {
@@ -41,7 +42,7 @@ function navigate(dir: 'fwd' | 'back', setter: () => void) {
 function initialScreen(): Screen {
   if (typeof window === 'undefined') return 'home';
   const s = new URLSearchParams(window.location.search).get('screen') as Screen | null;
-  const valid: Screen[] = ['home', 'departments', 'department', 'doctors', 'doctor', 'booking', 'account', 'clinic', 'prices', 'news', 'promotions'];
+  const valid: Screen[] = ['home', 'departments', 'department', 'doctors', 'doctor', 'booking', 'account', 'clinic', 'prices', 'news', 'promotions', 'search'];
   return s && valid.includes(s) ? s : 'home';
 }
 
@@ -112,7 +113,7 @@ export function App() {
     <div className="app">
       {screen === 'home' && (
         <HomeScreen onBook={() => openBooking()} onOpenDept={openDept} onDoctors={() => setScreen('doctors')}
-          onDepartments={() => openDepartments()} onOpenDoctor={openDoctor} onClinic={() => setScreen('clinic')} />
+          onDepartments={() => openDepartments()} onOpenDoctor={openDoctor} onClinic={() => setScreen('clinic')} onSearch={() => setScreen('search')} />
       )}
       {screen === 'departments' && (
         <DepartmentsScreen onOpenDept={openDept} favorites={favorites} onToggleFav={toggleFav} initialGroup={deptGroup} />
@@ -151,6 +152,9 @@ export function App() {
       )}
       {screen === 'promotions' && (
         <PromotionsScreen onBack={() => setScreen('account')} onBook={(p) => openBooking(p)} onOpenDoctor={openDoctor} />
+      )}
+      {screen === 'search' && (
+        <SearchScreen onBack={() => setScreen('home')} onOpenDept={openDept} onOpenDoctor={openDoctor} onBook={openBooking} />
       )}
 
       {isTab && (
