@@ -238,7 +238,7 @@ h1, h2, h3 { color: var(--text-primary); line-height: 1.14; letter-spacing: -0.0
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-bright); display: flex; align-items: center; gap: 7px; }
-.hero-title { font-size: 26px; font-weight: 800; margin: 10px 0 8px; letter-spacing: -0.02em; }
+.hero-title { font-size: 26px; font-weight: 800; margin: 10px 0 8px; letter-spacing: -0.02em; color: #fff; }
 .hero-title .serif { color: var(--gold-bright); font-weight: 600; }
 .hero-sub { font-size: 13.5px; color: var(--text-on-navy-2); line-height: 1.5; max-width: 30ch; }
 .hero-cta { display: flex; gap: 10px; margin-top: 16px; }

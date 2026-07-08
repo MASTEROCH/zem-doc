@@ -110,6 +110,7 @@ export function DrZem({
   const timers = useRef<number[]>([]);
 
   const clearTimers = () => { timers.current.forEach(clearTimeout); timers.current = []; };
+  useEffect(() => { if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('zem') === '1') openChat(); /* eslint-disable-next-line */ }, []);
   const after = (ms: number, fn: () => void) => { const id = window.setTimeout(fn, ms); timers.current.push(id); };
 
   // Idle: occasional greeting bubble + subtle emotion shifts

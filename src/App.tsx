@@ -28,8 +28,15 @@ function navigate(setter: () => void) {
   else setter();
 }
 
+function initialScreen(): Screen {
+  if (typeof window === 'undefined') return 'home';
+  const s = new URLSearchParams(window.location.search).get('screen') as Screen | null;
+  const valid: Screen[] = ['home','departments','department','doctors','doctor','booking','account','clinic'];
+  return s && valid.includes(s) ? s : 'home';
+}
+
 export function App() {
-  const [screen, setScreenRaw] = useState<Screen>('home');
+  const [screen, setScreenRaw] = useState<Screen>(initialScreen);
   const [deptId, setDeptId] = useState<string>('cardio');
   const [doctorId, setDoctorId] = useState<string>('morozova-n');
   const [prefill, setPrefill] = useState<{ deptId?: string; doctorId?: string }>({});
