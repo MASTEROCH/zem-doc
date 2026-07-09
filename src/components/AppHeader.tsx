@@ -22,7 +22,7 @@ export function AppHeader({
     <header ref={ref} className={`app-header ${flat ? 'flat' : ''} ${scrolled ? 'scrolled' : ''}`}>
       <div className="app-header-row">
         <div className="brand-lockup">
-          <div className="brand-mark"><Icon name="pulse" size={22} strokeWidth={2.4} /></div>
+          <div className="brand-mark logo"><img src="logo-mark.svg" alt="Земский Доктор" /></div>
           <div className="brand-text">
             <div className="brand-name">Земский <span className="gold">Доктор</span></div>
             <div className="brand-sub">{clinic.city} · медцентр</div>

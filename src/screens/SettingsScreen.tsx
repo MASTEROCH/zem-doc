@@ -112,7 +112,7 @@ export function SettingsScreen({ onBack }: { onBack: () => void }) {
 
       <div className="section">
         <div className="card card-pad center">
-          <div className="brand-mark" style={{ width: 48, height: 48, borderRadius: 15, margin: '0 auto 10px' }}><Icon name="pulse" size={26} strokeWidth={2.4} /></div>
+          <div className="brand-mark logo" style={{ width: 48, height: 48, margin: '0 auto 10px' }}><img src="logo-mark.svg" alt="Земский Доктор" /></div>
           <div style={{ fontWeight: 800, fontSize: 15 }}>Земский Доктор</div>
           <div className="faint" style={{ fontSize: 12, marginTop: 2 }}>Демо-прототип · версия 1.4</div>
           <div className="faint" style={{ fontSize: 11, marginTop: 8, lineHeight: 1.5 }}>Лицензия № Л0-39-01-001877<br />© 2026 Земский Доктор · Калининград</div>
