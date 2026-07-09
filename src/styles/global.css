@@ -305,7 +305,10 @@ h1, h2, h3 { color: var(--text-primary); line-height: 1.14; letter-spacing: -0.0
   background: linear-gradient(170deg, #fff, var(--surface-tint));
   border: 1px solid var(--border); box-shadow: var(--shadow-card);
   transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration);
-  height: 184px; display: flex; flex-direction: column;
+  display: flex; flex-direction: column;
+  /* высота НЕ фиксируется: равенство карточек дают резервы min-height
+     (иконка 60 + заголовок 2 строки + описание 2 строки + футер) —
+     стек у всех одинаковый, а контент никогда не обрезается */
 }
 .dept-card:active { transform: translateY(2px) scale(0.985); box-shadow: var(--shadow-xs); }
 .dept-card::after {
@@ -317,7 +320,9 @@ h1, h2, h3 { color: var(--text-primary); line-height: 1.14; letter-spacing: -0.0
   filter: drop-shadow(0 8px 14px rgba(154,124,78,0.32));
 }
 .dept-card.wide .dept-icon { width: 60px; height: 60px; }
-.dept-title { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; flex: none; min-height: 2.3em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+/* резервы = РОВНО 2 строки (line-height × 2), чтобы 1-строчный текст
+   не делал карточку ниже соседей: все стеки пиксель-в-пиксель равны */
+.dept-title { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; flex: none; min-height: 2.4em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .dept-short { font-size: 11.5px; color: var(--text-hint); margin-top: 3px; line-height: 1.3; min-height: 2.6em; flex: none;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .dept-card .badge.pop { position: absolute; top: 12px; right: 12px; }
