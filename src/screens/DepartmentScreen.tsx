@@ -32,7 +32,7 @@ export function DepartmentScreen({
 
       {/* when to come */}
       <div className="section">
-        <div className="section-head" style={{ marginBottom: 10 }}><div className="section-title" style={{ fontSize: 17 }}>Когда обращаться</div></div>
+        <div className="section-head" style={{ marginBottom: 10 }}><div className="section-title" style={{ fontSize: 18 }}>Когда обращаться</div></div>
         <div className="tag-wrap">
           {d.symptoms.map((s) => (
             <span className="tag" key={s}><span className="d" /> {s}</span>
@@ -43,7 +43,7 @@ export function DepartmentScreen({
       {/* services / prices */}
       <div className="section">
         <div className="section-head" style={{ marginBottom: 10 }}>
-          <div className="section-title" style={{ fontSize: 17 }}>Услуги и цены</div>
+          <div className="section-title" style={{ fontSize: 18 }}>Услуги и цены</div>
           <span className="faint" style={{ fontSize: 12 }}>{d.services.length} услуг</span>
         </div>
         <div className="list-card">
@@ -54,7 +54,6 @@ export function DepartmentScreen({
                 {s.note && <div className="svc-note">{s.note}</div>}
               </div>
               <div className="svc-price">{rub(s.price)}</div>
-              <button className="btn btn-ghost btn-sm svc-book" onClick={() => onBook({ deptId })}>Запись</button>
             </div>
           ))}
         </div>
@@ -64,7 +63,7 @@ export function DepartmentScreen({
       {docs.length > 0 && (
         <div className="section">
           <div className="section-head" style={{ marginBottom: 10 }}>
-            <div className="section-title" style={{ fontSize: 17 }}>Врачи направления</div>
+            <div className="section-title" style={{ fontSize: 18 }}>Врачи направления</div>
             <span className="faint" style={{ fontSize: 12 }}>{docs.length}</span>
           </div>
           <div className="wrap-gap">

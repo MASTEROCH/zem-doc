@@ -143,8 +143,7 @@ export function App() {
       )}
       {screen === 'account' && (
         <AccountScreen userName={userName} onSetName={setUserName} favCount={favorites.size}
-          onBook={() => openBooking()} onClinic={() => setScreen('clinic')} onDoctors={() => setScreen('doctors')}
-          onDepartments={() => openDepartments()} onFavorites={() => openDepartments('fav')}
+          onBook={() => openBooking()} onClinic={() => setScreen('clinic')} onFavorites={() => openDepartments('fav')}
           onPrices={() => setScreen('prices')} onNews={() => setScreen('news')} onPromotions={() => setScreen('promotions')} onSettings={() => setScreen('settings')} onAnalyses={() => setScreen('analyses')} />
       )}
       {screen === 'clinic' && (

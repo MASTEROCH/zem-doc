@@ -110,7 +110,7 @@ export function SettingsScreen({ onBack }: { onBack: () => void }) {
         </div>
       </div>
 
-      <div className="section" style={{ marginTop: 18 }}>
+      <div className="section">
         <div className="card card-pad center">
           <div className="brand-mark" style={{ width: 48, height: 48, borderRadius: 15, margin: '0 auto 10px' }}><Icon name="pulse" size={26} strokeWidth={2.4} /></div>
           <div style={{ fontWeight: 800, fontSize: 15 }}>Земский Доктор</div>

@@ -23,10 +23,10 @@ const DOCS = [
 ];
 
 export function AccountScreen({
-  userName, onSetName, favCount, onBook, onClinic, onDoctors, onDepartments, onFavorites, onPrices, onNews, onPromotions, onSettings, onAnalyses,
+  userName, onSetName, favCount, onBook, onClinic, onFavorites, onPrices, onNews, onPromotions, onSettings, onAnalyses,
 }: {
   userName: string; onSetName: (n: string) => void; favCount: number;
-  onBook: () => void; onClinic: () => void; onDoctors: () => void; onDepartments: () => void;
+  onBook: () => void; onClinic: () => void;
   onFavorites: () => void; onPrices: () => void; onNews: () => void; onPromotions: () => void; onSettings: () => void; onAnalyses: () => void;
 }) {
   const [phone, setPhone] = useState('');
@@ -104,11 +104,8 @@ export function AccountScreen({
 
   const menu: { icon: IconName; label: string; val?: string; onClick: () => void }[] = [
     { icon: 'calendar-check', label: 'История приёмов', val: String(past.length), onClick: openHistory },
-    { icon: 'flask', label: 'Мои анализы', val: '2', onClick: onAnalyses },
     { icon: 'file', label: 'Прайс-лист', onClick: onPrices },
     { icon: 'gift', label: 'Акции и комплексы', onClick: onPromotions },
-    { icon: 'stethoscope', label: 'Направления', onClick: onDepartments },
-    { icon: 'users', label: 'Врачи', onClick: onDoctors },
     { icon: 'bell', label: 'Новости и статьи', onClick: onNews },
     { icon: 'info', label: 'О клинике и контакты', onClick: onClinic },
     { icon: 'sparkle-ai', label: 'Спросить dr.Zem', onClick: () => openZem() },
@@ -139,7 +136,7 @@ export function AccountScreen({
         <div style={{ fontSize: 11.5, color: 'var(--text-on-navy-2)', marginTop: 8, position: 'relative' }}>Списывайте до 20% стоимости приёма</div>
       </div>
 
-      <div className="section" style={{ marginTop: 16 }}>
+      <div className="section">
         <div className="row" style={{ gap: 10 }}>
           {tiles.map((t) => (
             <button key={t.label} className="card" style={{ flex: 1, padding: '14px 10px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }} onClick={t.onClick}>
@@ -151,7 +148,7 @@ export function AccountScreen({
         </div>
       </div>
 
-      <div className="section" style={{ marginTop: 18 }}>
+      <div className="section">
         <div className="section-head" style={{ marginBottom: 10 }}>
           <div className="section-title" style={{ fontSize: 18 }}>Мои <span className="serif">записи</span></div>
         </div>
@@ -184,7 +181,7 @@ export function AccountScreen({
         </button>
       </div>
 
-      <div className="section" style={{ marginTop: 18 }}>
+      <div className="section">
         <div className="list-card">
           {menu.map((m) => (
             <button key={m.label} className="menu-item" style={{ width: '100%', textAlign: 'left' }} onClick={m.onClick}>

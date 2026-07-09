@@ -4,7 +4,7 @@ import { Icon } from '../components/Icon';
 import { DeptCard, DoctorMini, PromoCard } from '../components/Cards';
 import { departments } from '../data/departments';
 import { doctors, findDoctor } from '../data/doctors';
-import { advantages, reviews, promos, ratingSources, type Promo } from '../data/clinic';
+import { clinic, advantages, reviews, promos, ratingSources, type Promo } from '../data/clinic';
 import { rub } from '../data/departments';
 import { openSheet, closeSheet } from '../lib/ui';
 import { openZem } from '../lib/zem';
@@ -43,7 +43,7 @@ export function HomeScreen({
     if (label === 'Записаться') onBook();
     else if (label === 'Врачи') onDoctors();
     else if (label === 'Анализы') onAnalyses();
-    else window.location.href = 'tel:+74012663030';
+    else window.location.href = `tel:${clinic.phoneRaw}`;
   };
 
   function openPromo(p: Promo) {
@@ -148,7 +148,7 @@ export function HomeScreen({
       </div>
 
       {/* PROMOS — auto-marquee */}
-      <div className="section" style={{ marginTop: 22 }}>
+      <div className="section">
         <div className="section-head"><div className="section-title">Акции и <span className="serif">комплексы</span></div></div>
       </div>
       <div className="promo-scroll edge-fade auto-scroll" ref={promoRef}>
@@ -157,7 +157,7 @@ export function HomeScreen({
       </div>
 
       {/* TOP DOCTORS — auto-marquee */}
-      <div className="section" style={{ marginTop: 22 }}>
+      <div className="section">
         <div className="section-head">
           <div className="section-title">Наши <span className="serif">врачи</span></div>
           <button className="section-link" onClick={onDoctors}>Все 25 <Icon name="chevron-right" size={14} /></button>
@@ -168,15 +168,13 @@ export function HomeScreen({
       </div>
 
       {/* ADVANTAGES */}
-      <div className="section" style={{ marginTop: 24 }}>
-        <div className="wrap-gap">
+      <div className="section">
+        <div className="adv-grid">
           {advantages.map((a) => (
-            <div className="card card-pad row" key={a.title} style={{ gap: 14 }}>
-              <span className="quick-ic brand" style={{ width: 46, height: 46 }}><Icon name={a.icon as any} size={24} /></span>
-              <div className="grow">
-                <div style={{ fontWeight: 700, fontSize: 15 }}>{a.title}</div>
-                <div className="faint" style={{ fontSize: 12.5, marginTop: 2, lineHeight: 1.4 }}>{a.text}</div>
-              </div>
+            <div className="card adv-card" key={a.title}>
+              <span className="quick-ic brand"><Icon name={a.icon as any} size={21} /></span>
+              <div className="t">{a.title}</div>
+              <div className="s">{a.text}</div>
             </div>
           ))}
         </div>
@@ -201,7 +199,7 @@ export function HomeScreen({
       </div>
 
       {/* REVIEWS — auto-marquee */}
-      <div className="section" style={{ marginTop: 22 }}>
+      <div className="section">
         <div className="section-head"><div className="section-title">Отзывы <span className="serif">пациентов</span></div></div>
       </div>
       <div className="review-scroll edge-fade auto-scroll" ref={revRef}>
@@ -218,7 +216,7 @@ export function HomeScreen({
       </div>
 
       {/* CTA → dr.Zem (единый блок: маскот + вопрос + кнопка) */}
-      <div className="section" style={{ marginTop: 24 }}>
+      <div className="section">
         <div className="cta-banner zem-cta">
           <span className="zem-cta-head" aria-hidden><ZemFace emotion="hi" /></span>
           <span className="zem-cta-tag"><Icon name="sparkle-ai" size={12} /> ИИ-приёмная</span>
@@ -229,7 +227,7 @@ export function HomeScreen({
       </div>
 
       {/* clinic link */}
-      <div className="section" style={{ marginTop: 18 }}>
+      <div className="section">
         <button className="card card-pad between" style={{ width: '100%' }} onClick={onClinic}>
           <div className="row" style={{ gap: 12 }}>
             <span className="contact-ic"><Icon name="info" size={20} /></span>

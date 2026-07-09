@@ -95,13 +95,13 @@ export function DoctorScreen({
 
       {/* bio */}
       <div className="section">
-        <div className="section-title" style={{ fontSize: 17, marginBottom: 8 }}>О враче</div>
+        <div className="section-title" style={{ fontSize: 18, marginBottom: 8 }}>О враче</div>
         <p className="muted" style={{ fontSize: 14, lineHeight: 1.6 }}>{d.bio}</p>
       </div>
 
       {/* specialties */}
       <div className="section">
-        <div className="section-title" style={{ fontSize: 17, marginBottom: 10 }}>Специализация</div>
+        <div className="section-title" style={{ fontSize: 18, marginBottom: 10 }}>Специализация</div>
         <div className="tag-wrap">
           {d.specialties.map((s) => <span className="tag" key={s}><span className="d" style={{ background: 'var(--gold)' }} /> {s}</span>)}
         </div>
@@ -110,7 +110,7 @@ export function DoctorScreen({
       {/* departments */}
       {depts.length > 0 && (
         <div className="section">
-          <div className="section-title" style={{ fontSize: 17, marginBottom: 10 }}>Ведёт направления</div>
+          <div className="section-title" style={{ fontSize: 18, marginBottom: 10 }}>Ведёт направления</div>
           <div className="wrap-gap">
             {depts.map((dep) => (
               <button className="card card-pad row between" key={dep!.id} onClick={() => onOpenDept(dep!.id)} style={{ width: '100%' }}>
@@ -130,7 +130,7 @@ export function DoctorScreen({
 
       {/* schedule */}
       <div className="section">
-        <div className="section-title" style={{ fontSize: 17, marginBottom: 10 }}>График приёма</div>
+        <div className="section-title" style={{ fontSize: 18, marginBottom: 10 }}>График приёма</div>
         <div className="tag-wrap">
           {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'].map((day, i) => (
             <span className="tag" key={day} style={{ opacity: i === 5 ? 0.45 : 1 }}>
@@ -150,7 +150,7 @@ export function DoctorScreen({
 
       {/* education / regalia */}
       <div className="section">
-        <div className="section-title" style={{ fontSize: 17, marginBottom: 10 }}>Образование и опыт</div>
+        <div className="section-title" style={{ fontSize: 18, marginBottom: 10 }}>Образование и опыт</div>
         <div className="list-card">
           {[
             d.category ? `Квалификация — ${d.category}` : 'Сертифицированный специалист',
@@ -169,7 +169,7 @@ export function DoctorScreen({
       {/* reviews */}
       <div className="section">
         <div className="section-head" style={{ marginBottom: 10 }}>
-          <div className="section-title" style={{ fontSize: 17 }}>Отзывы</div>
+          <div className="section-title" style={{ fontSize: 18 }}>Отзывы</div>
           <span className="faint" style={{ fontSize: 12 }}>{d.reviews} отзывов</span>
         </div>
         <div className="wrap-gap">

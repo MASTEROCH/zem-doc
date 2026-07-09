@@ -29,7 +29,7 @@ export function ClinicScreen({ onBack, onBook }: { onBack: () => void; onBook: (
       </div>
 
       {/* stats */}
-      <div className="section" style={{ marginTop: 16 }}>
+      <div className="section">
         <div className="stat-row">
           {stats.map((s) => (
             <div className="stat" key={s.label}><div className="stat-value gold">{s.value}</div><div className="stat-label">{s.label}</div></div>

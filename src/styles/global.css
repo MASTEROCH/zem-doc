@@ -1384,3 +1384,34 @@ b, strong { font-weight: 700; }
 @keyframes step-in { from { opacity: 0; transform: translateX(20px); } }
 .notif-item:disabled { opacity: 1; }
 .notif-item:disabled:active { transform: none; }
+
+/* ── COMPOSITION-QA V8 · сетка/фокус/ховеры ──────────────── */
+
+/* Преимущества на главной — компактный 2×2 грид вместо колонны */
+.adv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.adv-card { padding: 14px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.adv-card .quick-ic { width: 40px; height: 40px; }
+.adv-card .t { font-weight: 700; font-size: 13.5px; letter-spacing: -0.01em; }
+.adv-card .s { font-size: 11.5px; color: var(--text-muted); line-height: 1.45; }
+
+/* Доступность: видимый фокус только с клавиатуры */
+:focus { outline: none; }
+:focus-visible { outline: 2px solid rgba(14,107,168,0.6); outline-offset: 2px; border-radius: 6px; }
+.btn:focus-visible, .chip:focus-visible, .slot:focus-visible, .day:focus-visible { outline-offset: 1px; }
+[data-theme="dark"] :focus-visible { outline-color: rgba(28,143,214,0.75); }
+
+/* Ховеры на всю интерактивку (desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .chip:not(.active):hover { border-color: var(--border-strong); background: var(--surface-2); }
+  .slot:not(:disabled):not(.active):hover, .day:not(.active):hover { border-color: var(--brand); color: var(--brand); }
+  .icon-btn:hover, .back-btn:hover { background: var(--surface-3); }
+  .section-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .quick:hover { transform: translateY(-2px); }
+  .pick:hover { border-color: var(--brand); }
+  .review-card:hover, .adv-card:hover { box-shadow: var(--shadow-raise); }
+  .nav-item:hover { color: var(--brand); }
+  .btn-outline:hover { background: var(--gold-soft); }
+  .btn-outline.brand:hover { background: var(--brand-soft); }
+  .btn-ghost:hover { filter: brightness(0.96); }
+  .segmented button:not(.active):hover { color: var(--text-primary); }
+}
