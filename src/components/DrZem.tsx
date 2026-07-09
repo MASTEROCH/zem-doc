@@ -148,10 +148,10 @@ function respond(raw: string): Msg[] {
 }
 
 export function DrZem({
-  onBook, onOpenDept, onOpenDoctor, onDoctors, onClinic,
+  onBook, onOpenDept, onOpenDoctor, onDoctors, onClinic, hideFab = false,
 }: {
   onBook: (deptId?: string) => void; onOpenDept: (id: string) => void; onOpenDoctor: (id: string) => void;
-  onDoctors: () => void; onClinic: () => void;
+  onDoctors: () => void; onClinic: () => void; hideFab?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [emotion, setEmotion] = useState<Emotion>('idle');
@@ -206,12 +206,14 @@ export function DrZem({
 
   return (
     <>
-      <button className="zem-fab" onClick={openChat} aria-label="Чат с dr.Zem">
-        <div className="zem-vfx"><div className="zem-aura" /></div>
-        <ZemFace emotion={emotion} />
-        {badge && <span className="zem-badge">1</span>}
-      </button>
-      {showHi && !open && (
+      {!hideFab && (
+        <button className="zem-fab" onClick={openChat} aria-label="Чат с dr.Zem">
+          <div className="zem-vfx"><div className="zem-aura" /></div>
+          <ZemFace emotion={emotion} />
+          {badge && <span className="zem-badge">1</span>}
+        </button>
+      )}
+      {!hideFab && showHi && !open && (
         <div className="zem-hi" onClick={openChat}>Привет! Я <b>dr.Zem</b> 👋 Подберу врача и отвечу на вопросы</div>
       )}
 

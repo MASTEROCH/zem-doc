@@ -68,6 +68,27 @@ export function AnalysesScreen({ onBack, onBook }: { onBack: () => void; onBook:
     });
   }
 
+  const prepSheet = () => openSheet({
+    title: 'Как подготовиться',
+    subtitle: 'Короткая памятка перед сдачей',
+    body: (
+      <div className="list-card">
+        {[
+          ['Кровь — натощак', 'Не есть 8–12 часов. Воду пить можно и нужно.'],
+          ['УЗИ брюшной полости', 'Не есть 6–8 часов, накануне — без газообразующих продуктов.'],
+          ['Моча', 'Утренняя средняя порция, стерильный контейнер из аптеки.'],
+          ['За 24 часа', 'Исключите алкоголь, интенсивный спорт и жирную пищу.'],
+        ].map(([t, d]) => (
+          <div className="set-row" key={t}>
+            <span className="menu-ic"><Icon name="check" size={16} /></span>
+            <div className="grow"><div className="set-title" style={{ fontSize: 13.5 }}>{t}</div><div className="set-sub">{d}</div></div>
+          </div>
+        ))}
+      </div>
+    ),
+    actions: <button className="btn btn-ghost btn-block" onClick={closeSheet}>Понятно</button>,
+  });
+
   return (
     <div className="screen">
       <TopBar title="Мои анализы" onBack={onBack} />
@@ -110,6 +131,17 @@ export function AnalysesScreen({ onBack, onBook }: { onBack: () => void; onBook:
             ))}
           </div>
         )}
+      </div>
+
+      <div className="section">
+        <button className="card card-pad row" style={{ width: '100%', gap: 12, background: 'var(--grad-tint-brand)' }} onClick={prepSheet}>
+          <span className="quick-ic teal" style={{ width: 42, height: 42, flex: 'none' }}><Icon name="info" size={20} /></span>
+          <div className="grow" style={{ textAlign: 'left' }}>
+            <div style={{ fontWeight: 700, fontSize: 13.5 }}>Как подготовиться к анализам</div>
+            <div className="faint" style={{ fontSize: 12 }}>Натощак или нет — памятка в одно касание</div>
+          </div>
+          <Icon name="chevron-right" size={17} className="faint" />
+        </button>
       </div>
     </div>
   );

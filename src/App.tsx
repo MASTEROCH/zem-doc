@@ -33,7 +33,7 @@ const DEPTH: Record<Screen, number> = {
   department: 1, doctor: 1, booking: 1, clinic: 1, prices: 1, news: 1, promotions: 1, search: 1, settings: 1, analyses: 1, confirm: 2,
 };
 
-function navigate(dir: 'fwd' | 'back', setter: () => void) {
+function navigate(dir: 'fwd' | 'back' | 'tab', setter: () => void) {
   const d = document as Document & { startViewTransition?: (cb: () => void) => unknown };
   if (typeof d.startViewTransition === 'function') {
     document.documentElement.dataset.dir = dir;
@@ -63,7 +63,12 @@ export function App() {
   });
   const [userName, setUserName] = useState('Гость');
 
-  const setScreen = (s: Screen) => navigate(DEPTH[s] < DEPTH[screen] ? 'back' : 'fwd', () => setScreenRaw(s));
+  const setScreen = (s: Screen) => {
+    // вкладка↔вкладка — кросс-фейд, push/pop — направленный слайд
+    const dir = TAB_SCREENS.includes(s) && TAB_SCREENS.includes(screen) ? 'tab'
+      : DEPTH[s] < DEPTH[screen] ? 'back' : 'fwd';
+    navigate(dir, () => setScreenRaw(s));
+  };
 
   useEffect(() => {
     document.body.removeAttribute('data-near-bottom');
@@ -119,7 +124,7 @@ export function App() {
       {screen === 'home' && (
         <HomeScreen onBook={() => openBooking()} onOpenDept={openDept} onDoctors={() => setScreen('doctors')}
           onDepartments={() => openDepartments()} onOpenDoctor={openDoctor} onClinic={() => setScreen('clinic')} onSearch={() => setScreen('search')}
-          onAnalyses={() => setScreen('analyses')} onAccount={() => setScreen('account')} />
+          onAnalyses={() => setScreen('analyses')} onAccount={() => setScreen('account')} userName={userName} />
       )}
       {screen === 'departments' && (
         <DepartmentsScreen onOpenDept={openDept} favorites={favorites} onToggleFav={toggleFav} initialGroup={deptGroup} />
@@ -171,8 +176,12 @@ export function App() {
       {isTab && (
         <>
           <div className="nav-veil" aria-hidden />
-          <BottomNav current={navCurrent} onChange={(s) => (s === 'booking' ? openBooking() : setScreen(s))} />
-          <DrZem onBook={(d) => openBooking(d ? { deptId: d } : {})} onOpenDept={openDept} onOpenDoctor={openDoctor}
+          <BottomNav current={navCurrent} onChange={(s) => {
+            if (s === 'booking') return openBooking();
+            if (s === screen) { document.querySelector('.screen')?.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+            setScreen(s);
+          }} />
+          <DrZem hideFab={screen === 'home'} onBook={(d) => openBooking(d ? { deptId: d } : {})} onOpenDept={openDept} onOpenDoctor={openDoctor}
             onDoctors={() => setScreen('doctors')} onClinic={() => setScreen('clinic')} />
         </>
       )}

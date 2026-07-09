@@ -1420,3 +1420,55 @@ b, strong { font-weight: 700; }
   .btn-ghost:hover { filter: brightness(0.96); }
   .segmented button:not(.active):hover { color: var(--text-primary); }
 }
+
+/* ════════════════════════════════════════════════════════
+   NAV-GLASS-V3 + LIVE-LAYER V9 · 2026-07-09
+   стекло навбара · tab-фейд · ближайший приём на главной
+   ════════════════════════════════════════════════════════ */
+
+/* ── Навбар: настоящий liquid glass — светопропускание + спекуляр ── */
+.bottom-nav {
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.42));
+  -webkit-backdrop-filter: blur(36px) saturate(210%) brightness(1.06);
+  backdrop-filter: blur(36px) saturate(210%) brightness(1.06);
+  border: 1px solid rgba(255,255,255,0.78);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    inset 0 -14px 26px -20px rgba(8,35,68,0.16),
+    0 18px 44px -16px rgba(8,35,68,0.32),
+    0 2px 8px rgba(8,35,68,0.08);
+}
+/* верхний спекуляр-блик по всей плоскости */
+.bottom-nav::before {
+  background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0) 48%);
+}
+/* индикатор — стеклянная пилюля с внутренним светом */
+.nav-indicator {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.14)),
+    radial-gradient(72% 95% at 50% 28%, rgba(14,107,168,0.2), rgba(14,107,168,0.04) 72%, transparent);
+  border: 1px solid rgba(255,255,255,0.75);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 6px 16px -7px rgba(14,107,168,0.4);
+}
+[data-theme="dark"] .bottom-nav {
+  background: linear-gradient(180deg, rgba(28,42,58,0.68), rgba(15,26,38,0.62));
+  border-color: rgba(255,255,255,0.14);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 18px 44px -14px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.4);
+}
+[data-theme="dark"] .nav-indicator {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.13), rgba(255,255,255,0.03)),
+    radial-gradient(72% 95% at 50% 28%, rgba(28,143,214,0.32), transparent 75%);
+  border-color: rgba(255,255,255,0.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+/* ── Tab↔tab: мягкий кросс-фейд вместо бокового слайда ── */
+html[data-dir="tab"]::view-transition-new(root) { animation: vt-tab-in 0.24s ease both; }
+html[data-dir="tab"]::view-transition-old(root) { animation: vt-tab-out 0.18s ease both; }
+@keyframes vt-tab-in { from { opacity: 0; transform: scale(0.993); } }
+@keyframes vt-tab-out { to { opacity: 0; } }
+
+/* ── «Ближайший приём» на главной ── */
+.appt-home { border-left: 3px solid var(--gold); }
+.appt-home:active { transform: scale(0.985); }

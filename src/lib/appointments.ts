@@ -67,6 +67,13 @@ export function cancelAppointment(id: string) {
   save(load().map((a) => (a.id === id ? { ...a, status: 'cancelled' as const } : a)));
 }
 
+const MO_SHORT = ['янв', 'фев', 'мар', 'апр', 'мая', 'июня', 'июля', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+/** День и месяц для плашки даты записи */
+export function apptDayMonth(a: Appointment) {
+  const dt = new Date(a.dateKey + 'T12:00:00');
+  return { d: String(dt.getDate()), m: MO_SHORT[dt.getMonth()] };
+}
+
 /** React-хук: перерисовка при изменении записей */
 export function useAppointments(): Appointment[] {
   const [, force] = useState(0);

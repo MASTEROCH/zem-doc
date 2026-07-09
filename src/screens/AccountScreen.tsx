@@ -6,6 +6,7 @@ import { openSheet, closeSheet, toast } from '../lib/ui';
 import { openZem } from '../lib/zem';
 import { useAppointments, upcoming, history, cancelAppointment, type Appointment } from '../lib/appointments';
 import { haptic } from '../lib/haptics';
+import { CountUpInt } from '../lib/useCountUp';
 import { formatRuPhone } from '../lib/phone';
 
 const MO_SHORT = ['янв', 'фев', 'мар', 'апр', 'мая', 'июня', 'июля', 'авг', 'сен', 'окт', 'ноя', 'дек'];
@@ -96,6 +97,36 @@ export function AccountScreen({
     ),
   });
 
+  const openBonus = () => openSheet({
+    title: 'Бонусная программа',
+    subtitle: '1 балл = 1 ₽ · можно оплатить до 20% приёма',
+    body: (
+      <div>
+        <div className="card card-pad center" style={{ marginBottom: 12, background: 'var(--grad-tint-gold)' }}>
+          <div style={{ fontSize: 34, fontWeight: 800, letterSpacing: '-0.02em' }}>380</div>
+          <div className="faint" style={{ fontSize: 12 }}>баллов на карте ЗД · 2026 · 4417</div>
+        </div>
+        <div className="field-label">Последние начисления</div>
+        <div className="list-card">
+          {[
+            { t: 'Чек-ап «Здоровое сердце»', v: '+180', d: '18 июня' },
+            { t: 'Приём кардиолога', v: '+120', d: '2 июня' },
+            { t: 'Отзыв о враче', v: '+80', d: '28 мая' },
+          ].map((r) => (
+            <div className="set-row" key={r.t}>
+              <div className="grow"><div className="set-title" style={{ fontSize: 13.5 }}>{r.t}</div><div className="set-sub">{r.d}</div></div>
+              <div style={{ fontWeight: 800, color: 'var(--ok)' }}>{r.v}</div>
+            </div>
+          ))}
+        </div>
+        <p className="faint" style={{ fontSize: 11.5, lineHeight: 1.5, marginTop: 10 }}>
+          Баллы начисляются за визиты, чек-апы и отзывы. Сгорают через 12 месяцев.
+        </p>
+      </div>
+    ),
+    actions: <button className="btn btn-primary btn-block btn-lg" onClick={() => { closeSheet(); onBook(); }}><Icon name="calendar-check" size={20} /> Записаться и накопить</button>,
+  });
+
   const tiles = [
     { icon: 'flask' as IconName, label: 'Анализы', tone: 'teal', note: '2 готовы', onClick: onAnalyses },
     { icon: 'file' as IconName, label: 'Документы', tone: 'brand', note: String(DOCS.length), onClick: openDocuments },
@@ -124,7 +155,7 @@ export function AccountScreen({
         <button className="icon-btn" onClick={editProfile} aria-label="Редактировать"><Icon name="pencil" size={18} /></button>
       </div>
 
-      <div className="mcard reveal">
+      <button className="mcard reveal" style={{ width: '100%', textAlign: 'left' }} onClick={openBonus}>
         <div className="row1">
           <div>
             <div className="mc-label">Медицинская карта</div>
@@ -132,9 +163,11 @@ export function AccountScreen({
           </div>
           <Icon name="shield-check" size={26} style={{ color: 'var(--gold-bright)' }} />
         </div>
-        <div className="mc-bonus"><b>380</b><span style={{ color: 'var(--text-on-navy-2)', fontSize: 13 }}>бонусных баллов</span></div>
-        <div style={{ fontSize: 11.5, color: 'var(--text-on-navy-2)', marginTop: 8, position: 'relative' }}>Списывайте до 20% стоимости приёма</div>
-      </div>
+        <div className="mc-bonus"><b><CountUpInt value={380} /></b><span style={{ color: 'var(--text-on-navy-2)', fontSize: 13 }}>бонусных баллов</span></div>
+        <div style={{ fontSize: 11.5, color: 'var(--text-on-navy-2)', marginTop: 8, position: 'relative', display: 'flex', alignItems: 'center', gap: 4 }}>
+          Списывайте до 20% стоимости приёма <Icon name="chevron-right" size={13} />
+        </div>
+      </button>
 
       <div className="section">
         <div className="row" style={{ gap: 10 }}>

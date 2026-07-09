@@ -12,6 +12,7 @@ import { openNotifications } from '../lib/notifications';
 import { ZemFace } from '../components/DrZem';
 import { CountUpInt } from '../lib/useCountUp';
 import { useAutoScroll } from '../lib/useAutoScroll';
+import { useAppointments, upcoming, apptDayMonth } from '../lib/appointments';
 
 const QUICK = [
   { icon: 'calendar-check', label: 'Записаться', tone: 'brand' },
@@ -21,23 +22,28 @@ const QUICK = [
 ] as const;
 
 export function HomeScreen({
-  onBook, onOpenDept, onDoctors, onDepartments, onOpenDoctor, onClinic, onSearch, onAnalyses, onAccount,
+  onBook, onOpenDept, onDoctors, onDepartments, onOpenDoctor, onClinic, onSearch, onAnalyses, onAccount, userName,
 }: {
   onBook: () => void; onOpenDept: (id: string) => void; onDoctors: () => void;
   onDepartments: () => void; onOpenDoctor: (id: string) => void; onClinic: () => void; onSearch: () => void;
-  onAnalyses: () => void; onAccount: () => void;
+  onAnalyses: () => void; onAccount: () => void; userName?: string;
 }) {
   const popular = departments.filter((d) => d.popular);
+  useAppointments();
+  const nextAppt = upcoming()[0];
+  const hour = new Date().getHours();
+  const hello = hour < 5 ? 'Доброй ночи' : hour < 12 ? 'Доброе утро' : hour < 18 ? 'Добрый день' : 'Добрый вечер';
+  const named = userName && userName !== 'Гость';
   const topDoctors = [...doctors].sort((a, b) => b.rating - a.rating).slice(0, 8);
 
   const deptRef = useRef<HTMLDivElement>(null);
   const promoRef = useRef<HTMLDivElement>(null);
   const docRef = useRef<HTMLDivElement>(null);
   const revRef = useRef<HTMLDivElement>(null);
-  useAutoScroll(deptRef, 0.30);
-  useAutoScroll(promoRef, 0.32);
-  useAutoScroll(docRef, 0.28);
-  useAutoScroll(revRef, 0.3);
+  useAutoScroll(deptRef, 26);
+  useAutoScroll(promoRef, 30);
+  useAutoScroll(docRef, 23);
+  useAutoScroll(revRef, 27);
 
   const quickAction = (label: string) => {
     if (label === 'Записаться') onBook();
@@ -111,7 +117,7 @@ export function HomeScreen({
       {/* HERO */}
       <div className="hero reveal">
         <div className="hero-card">
-          <div className="hero-eyebrow"><Icon name="shield-check" size={14} /> Ваше здоровье — наш приоритет</div>
+          <div className="hero-eyebrow"><Icon name="shield-check" size={14} /> {named ? `${hello}, ${userName}!` : 'Ваше здоровье — наш приоритет'}</div>
           <h1 className="hero-title">Забота о вас <span className="serif">каждый день</span></h1>
           <p className="hero-sub">Многопрофильный медцентр в Калининграде. 25 врачей, современная диагностика, запись за минуту.</p>
           <div className="hero-cta">
@@ -125,6 +131,21 @@ export function HomeScreen({
           </div>
         </div>
       </div>
+
+      {/* NEXT APPOINTMENT — живая связь с Кабинетом */}
+      {nextAppt && (
+        <div className="section" style={{ marginTop: 14 }}>
+          <button className="card appt-card appt-home" style={{ width: '100%' }} onClick={onAccount}>
+            <div className="appt-date"><div className="d">{apptDayMonth(nextAppt).d}</div><div className="m">{apptDayMonth(nextAppt).m}</div></div>
+            <div className="appt-info" style={{ textAlign: 'left' }}>
+              <div className="faint" style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>Ближайший приём</div>
+              <div style={{ fontWeight: 700, fontSize: 14, marginTop: 2 }}>{nextAppt.deptTitle} · {nextAppt.time}</div>
+              <div className="faint" style={{ fontSize: 12, marginTop: 1 }}>{nextAppt.doctorName}</div>
+            </div>
+            <Icon name="chevron-right" size={18} className="faint" />
+          </button>
+        </div>
+      )}
 
       {/* QUICK ACTIONS */}
       <div className="quick-row reveal reveal-2">
